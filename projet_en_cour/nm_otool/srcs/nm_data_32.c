@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 16:45:02 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/05/29 15:42:25 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/13 18:42:07 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ char 	*get_value_32(uint64_t value, char c)
 			tojoin[x++] = '0';	
 		tojoin[x] = '\0';
 		ret = ft_strjoin(tojoin, tmp);
-//		free(tmp);
-//		free(tojoin);
 	}
 	return(ret);
 }

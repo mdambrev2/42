@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 18:44:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/12 15:33:26 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/13 17:10:35 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ void					set_data_32(t_circ *elem, struct nlist *array,
 void					unzip_fat(void *ptr, void *name, int ac, struct stat *buf);
 void					nm(void *ptr, char *str, int ac, struct stat *buf);
 void					unzip_ar(void *ptr, void *name, int ac, struct stat *buf);
-void					unzip_ar_otool(void *ptr, void *name, int ac);
+void					unzip_ar_otool(void *ptr, void *name, int ac, struct stat *buf);
 t_circ                  *otool_x64_bin(void *ptr, char *name, int ar);
 t_circ                  *otool_x32_bin(void *ptr, char *name, int ar);
-void					otool(void *ptr, char *str, int ac, int ar);
+void					otool(void *ptr, char *str, int ac, struct stat *buf);
 void                	map(char * ptr, int ac, int set);
-void					unzip_fat_otool(void *ptr, void *name, int ac);
+void					unzip_fat_otool(void *ptr, void *name, int ac, struct stat *buf);
 int						check_x32_x64_corrupt(void *ptr, struct stat *buf, char *str, int x);
 void					put_corrupted_files(char *str);
 void					put_wrong_command_size(char *str);
 int						check_fat_corrupt(void *ptr, struct stat *buf, char *str);
-
+int						check_ar_corrupt(void *ptr, struct stat *buf, char *str);
 #endif

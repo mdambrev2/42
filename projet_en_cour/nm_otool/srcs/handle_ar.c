@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 15:01:08 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/12 14:40:05 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/13 17:24:22 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void						unzip_ar(void *ptr, void *name, int ac, struct stat *buf)
 	int						struct_overflow;
 	uint32_t				cpt;
 
-	ac = 1;
+	ac = 2;
 	header_ar = (void *)ptr + SARMAG ;
 	cpt = 0;
 	struct_overflow = ft_atoi(ft_strchr(header_ar->ar_name, '/') + 1 );
@@ -45,7 +45,7 @@ void						unzip_ar(void *ptr, void *name, int ac, struct stat *buf)
 	ac = 0;
 }
 
-void						unzip_ar_otool(void *ptr, void *name, int ac)
+void						unzip_ar_otool(void *ptr, void *name, int ac, struct stat *buf)
 {
 	
 	struct		ar_hdr		*header_ar;
@@ -54,7 +54,7 @@ void						unzip_ar_otool(void *ptr, void *name, int ac)
 	int						struct_overflow;
 	uint32_t				cpt;
 
-	ac = 1;
+	ac = 2;
 	header_ar = (void *)ptr + SARMAG ;
 	cpt = 0;
 	struct_overflow = ft_atoi(ft_strchr(header_ar->ar_name, '/') + 1 );
@@ -73,8 +73,9 @@ void						unzip_ar_otool(void *ptr, void *name, int ac)
 		header_ar = (void *)ptr + array_bin[cpt].ran_off;
 		struct_overflow = ft_atoi(ft_strchr(header_ar->ar_name, '/') + 1);
 		ft_printf("\n%s(%s):\n", name, header_ar->ar_fmag + 2);
-		otool((void *)header_ar + sizeof(struct ar_hdr) + struct_overflow, name , ac, 1);
+		otool((void *)header_ar + sizeof(struct ar_hdr) + struct_overflow, name , ac, buf);
 		cpt++;
 	}
+	
 	ft_printf("\n");
 }

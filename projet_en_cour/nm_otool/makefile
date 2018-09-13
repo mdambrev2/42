@@ -6,7 +6,7 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/09/12 15:28:04 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/09/13 18:08:40 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ NAME2	= ft_otool\
 SRC_MAIN =	nm_main.c\
 			otool_main.c\
 
-
 SRC 	=	put_nm_add.c\
 			parsing_args.c\
 			handle_nm_64.c\
@@ -28,13 +27,14 @@ SRC 	=	put_nm_add.c\
 			nm_data_32.c\
 			nm_add_list.c\
 			nm_sort_list.c\
-			handle_nm_fat.c\
+			handle_fat.c\
 			handle_ar.c\
 			handle_otool_64.c\
 			handle_otool_32.c\
 			nm_otool_core.c\
 			corrupted_file_x64_x32.c\
 			corrupted_file_fat.c\
+			corrupted_file_ar.c\
 
 LIBFT	=	ft_strlen.c\
 			ft_putstr.c\

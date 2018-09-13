@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 16:45:02 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/05/29 15:51:07 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/13 18:50:15 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ char	get_type(struct nlist_64 *array)
 	if(value == 1)
 		return('U');
 	else if(value == 15 && section > 1)
+	{
+		printf("%llu\n", array->n_value);
 		return('S');
+	}
 	else if(value == 15 && section == 1)
 		return('T');
 	else if(value == 14 &&	section > 1)

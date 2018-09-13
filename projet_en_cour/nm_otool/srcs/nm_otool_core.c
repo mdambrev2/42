@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 16:25:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/12 18:39:10 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/13 17:27:51 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ void				map(char * str, int ac, int set)
 	if(S_ISDIR(buf.st_mode) == 1)
 		 return(put_buff_error(str));
 	ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+	ac = 0;
 	if(set == 0)
-		nm(ptr, str, ac, &buf);
+		nm(ptr, str, 0, &buf);
 	else if(set == 1)
-		otool(ptr, str, ac, 0);
+		otool(ptr, str, ac, &buf);
 	munmap(ptr, buf.st_size);
 }
 
@@ -78,13 +79,17 @@ void				nm(void *ptr, char *str, int ac, struct stat *buf)
 		return(unzip_fat(ptr, str, ac, buf));
 	}
 	else if((*(uint64_t *)ptr) == AR_MAGIC || (*(uint64_t *)ptr) == AR_CIGAM)
+	{
+		if(check_ar_corrupt(ptr, buf, str) == 1)
+			return;
 		return (unzip_ar(ptr, str, ac, buf));
+	}
 	else 
 		return(put_type_error(str));
 	put_list(to_put, str, ac);
 }
 
-void				otool(void *ptr, char *str, int ac, int ar)
+void				otool(void *ptr, char *str, int ac, struct stat *buf)
 {
 	unsigned int	magic_number;
 	t_circ 			*to_put;
@@ -93,18 +98,30 @@ void				otool(void *ptr, char *str, int ac, int ar)
 	to_put = NULL;
 	if(magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
 	{
-		otool_x64_bin(ptr, str, ar);
+		if(ac != 2 && check_x32_x64_corrupt(ptr, buf, str, 1) == 1)
+			return;
+		otool_x64_bin(ptr, str, ac);
 		return;
 	}
 	else if(magic_number == MH_MAGIC || magic_number == MH_CIGAM)
 	{
-		otool_x32_bin(ptr, str, ar);
+		if(ac != 2 && check_x32_x64_corrupt(ptr, buf, str, 2) == 1)
+			return;
+		otool_x32_bin(ptr, str, ac);
 		return;
 	}
 	else if(magic_number == FAT_MAGIC || magic_number == FAT_CIGAM)
-		return(unzip_fat_otool(ptr, str, ac));
+	{
+		if(check_fat_corrupt(ptr, buf, str) == 1)
+			return;
+		return(unzip_fat_otool(ptr, str, ac, buf));
+	}
 	else if((*(uint64_t *)ptr) == AR_MAGIC || (*(uint64_t *)ptr) == AR_CIGAM)
-		return (unzip_ar_otool(ptr, str, ac));
+	{
+		if(check_ar_corrupt(ptr, buf, str) == 1)
+			return;
+		return (unzip_ar_otool(ptr, str, ac, buf));
+	}
 	else 
 		return(put_type_error(str));
 	put_list(to_put, str, ac);

@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 15:01:08 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/12 18:27:13 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/13 18:14:53 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	unzip_fat(void *ptr, void *name, int ac, struct stat *buf)
 	}
 }
 
-void	unzip_fat_otool(void *ptr, void *name, int ac)
+void	unzip_fat_otool(void *ptr, void *name, int ac, struct stat *buf)
 {
 	
 	struct	fat_header	*header_fat;
@@ -53,12 +53,13 @@ void	unzip_fat_otool(void *ptr, void *name, int ac)
 	header_bin = (struct  fat_arch *)(ptr + sizeof(struct fat_header));
 
 	x = 0;
+	ac = 2;
 	ft_printf("%s:\n", name);
 	while(x < swap_uint32(header_fat->nfat_arch))
 	{
 		if(swap_uint32(header_bin->cputype) == CPU_TYPE_X86_64)
 		{
-			otool(ptr + swap_uint32(header_bin->offset), name, ac, 1);
+			otool(ptr + swap_uint32(header_bin->offset), name, ac, buf);
 			break;
 		}
 		header_bin = (void*)header_bin + sizeof(struct  fat_arch); 
