@@ -1,3 +1,24 @@
-possible:
-Contents of (__TEXT,__text) section
-0000000100000f90	55 48 89 e5 31 c0 c7 51 fc 00 00 00 00 5d c3 
+         U ___stdoutp
+00001000 T __mh_execute_header
+         U _fprintf
+00002040 D _g_choose
+0000206c S _g_chopsticks
+00002088 S _g_philo
+00001af0 T _init_resources
+00001aa0 T _main
+00001550 T _philosopher_eating
+00001850 T _philosopher_relax
+000016f0 T _philosopher_thinking
+00001c80 T _print_states_history
+         U _printf
+         U _pthread_create
+         U _pthread_join$UNIX2003
+         U _pthread_mutex_lock
+         U _pthread_mutex_unlock
+         U _rand
+00001930 T _set_brain
+         U _sleep$UNIX2003
+         U _srand
+         U _time
+00001d40 T _wait_for
+         U dyld_stub_binder

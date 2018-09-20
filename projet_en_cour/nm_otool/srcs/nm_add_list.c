@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 13:24:57 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/05/31 16:30:21 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/14 15:54:31 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_circ *add_elem_inblock_down(t_circ *ret)
 	elem->next = new;	
 
 	new->racine = ret->racine;
+	new->ptr = new->racine->ptr;
 	return(new);
 }
 
@@ -66,7 +67,8 @@ t_circ *add_elem_inblock_up(t_circ *ret)
 	new->prev = prev;
 	new->next = next;
 
-	new->racine = ret->racine;	
+	new->racine = ret->racine;
+	new->ptr = new->racine->ptr;
 	return(new);
 }
 

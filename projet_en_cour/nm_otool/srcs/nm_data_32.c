@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 16:45:02 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/13 18:42:07 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/20 16:17:36 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,34 +40,93 @@ char 	*get_value_32(uint64_t value, char c)
 	return(ret);
 }
 
-char	get_type_32(struct nlist *array)
+char	get_sect_32(struct nlist *array, struct segment_command *seg, t_circ *elem)
 {
-	int value;
-	int section;
+	
+	int cpt;
+	int x;
+	struct section *sect;
 
-	value = array->n_type;
-	section = array->n_sect;
-
-	if(value == 1)
-		return('U');
-	else if(value == 15 && section > 1)
-		return('S');
-	else if(value == 15 && section == 1)
-		return('T');
-	else if(value == 14 && section == 11)
-		return('s');
-	else if(value == 14 &&	section > 1)
-		return('b');
-	else if((value == 14 || value == 30) && section == 1)
-		return('t');
-	else if(value == 30 && section > 1)
-		return('s');
-	return('0');
+	cpt = array->n_sect;
+	sect = (void*)seg + sizeof(struct segment_command);
+	x = 0;
+	while(x < cpt)
+	{
+		sect = (void*)sect + 2;
+		x++;
+	}
+	if(ft_strcmp("_g_choose", elem->function_name) == 0)
+	{
+		printf("%s %s\n", sect->segname, sect->sectname);
+	}
+	elem++;
+	elem--;
+	if (!ft_strncmp(sect->sectname, SECT_DATA, 16))
+		return ('d');
+	else if (!ft_strncmp(sect->sectname, SECT_BSS, 16))
+		return ('b');
+	else if (!ft_strncmp(sect->sectname, SECT_TEXT, 16))
+		return ('t');
+	return ('s');
 }
 
-int		 get_priority_32(char *str)
+
+char get_seg_32(struct nlist *array, t_circ *elem)
 {
-	int	x;
+	struct mach_header	*header;
+	struct load_command		*lc;
+	int						n_cmd;
+	int							x;
+	char						ret;
+	struct segment_command	*seg;
+
+	x = 0;
+	ret = 0;
+	header = (struct mach_header*)elem->ptr;
+	n_cmd = header->ncmds;
+	lc = elem->ptr + sizeof(struct mach_header);
+	while(x < n_cmd)
+	{
+		if(lc->cmd == LC_SEGMENT)
+		{
+			seg = (struct segment_command*)lc;	
+			if((ret = get_sect_32(array, seg, elem)) != 's')
+				break;
+		}
+		lc = (void*)lc + lc->cmdsize;
+		x++;
+	}
+	return(ret);
+}
+
+char	get_type_32(struct nlist *array, t_circ *elem)
+{
+	uint8_t type;
+	char ret;
+
+
+	type = array->n_type & N_TYPE;
+	if (type == N_SECT)
+		ret = get_seg_32(array, elem);
+	else if (type == N_UNDF)
+		ret = 'u';
+	else if (type == N_PBUD)
+		ret = 'u';
+	else if (type == N_ABS)
+		ret = 'a';
+	else if (type == N_INDR)
+		ret = 'i';
+	else
+		ret = '?';
+	if (array->n_type & N_EXT && type != '?')
+		return(ft_toupper(ret));
+	else
+		return (ret);
+}
+
+int      get_priority_32(char *str)
+{
+	int x;
 
 	x = 0;
 	while(str[x] && str[x] == '_')
@@ -78,8 +137,8 @@ int		 get_priority_32(char *str)
 void	set_data_32(t_circ *elem, struct nlist *array,											char *stringtable, int type)
 {
 
-	elem->function_name = ft_strdup(stringtable + array->n_un.n_strx);	
-	elem->type = get_type_32(array);
+	elem->function_name = ft_strdup(stringtable + array->n_un.n_strx);
+	elem->type = get_type_32(array, elem);
 	elem->value = get_value_32(array->n_value, elem->type);
 	elem->n_desc = array->n_desc;
 	elem->priority = get_priority_32(elem->function_name);

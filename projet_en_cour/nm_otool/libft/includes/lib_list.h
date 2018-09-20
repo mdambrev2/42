@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/17 00:01:14 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/05/23 17:37:15 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/14 15:54:21 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct		s_circ
 	int				is_archive;
 	uint16_t		n_desc;
 	char			*archive_name;
+	void			*ptr;
 	int				priority;
 }					t_circ;
 

@@ -1,2 +1,28 @@
-/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm:possible: truncated or malformed object
- (filesize is not equal to the end of the file)
+         U ___stdoutp
+00001000 T __mh_execute_header
+         U _fprintf
+00002040 S _g_choose
+0000206c S _g_chopsticks
+00002088 S _g_philo
+00001af0 T _init_resources
+00001aa0 T _main
+00001550 T _philosopher_eating
+00001850 T _philosopher_relax
+000016f0 T _philosopher_thinking
+00001c80 T _print_states_history
+         U _printf
+         U _pthread_create
+         U _pthread_join$UNIX2003
+         U _pthread_mutex_lock
+         U _pthread_mutex_unlock
+         U _rand
+00001930 T _set_brain
+         U _sleep$UNIX2003
+         U _srand
+         U _time
+00001d40 T _wait_for
+         U dyld_stub_binder
+ptr 
+ ûÆD3(
+EÔéšþÿÿƒÄ<^_[]Ãf„ 
+ 
