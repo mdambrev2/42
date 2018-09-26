@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 16:45:02 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/20 16:59:13 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/26 17:38:41 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,94 +40,41 @@ char 	*get_value(uint64_t value, char c)
 	return(ret);
 }
 
-/*
 
-static uint8_t	compare_sect(struct section_64 *sect)
+
+static char	compare_sect(struct nlist_64 *array, t_circ *sector)
 {
-	if (sect && !(ft_strncmp(SECT_TEXT, sect->sectname, 16)))
-		return ((uint8_t)'T');
-	else if (sect && !(ft_strncmp(SECT_DATA, sect->sectname, 16)))
-		return ((uint8_t)'D');
-	else if (sect && !(ft_strncmp(SECT_BSS, sect->sectname, 16)))
-		return ((uint8_t)'B');
-	else
-c		return ((uint8_t)'S');
-}
-*/
-
-char	get_sect(struct nlist_64 *array, struct segment_command_64 *seg)
-{
-	
-
 	int cpt;
-	uint64_t x;
-	struct section_64 *sect;
 
-	array++;
-	array--;
-	cpt = array->n_sect;
-	sect = (void*)seg + sizeof(struct segment_command_64);
-	x = 0;
-	printf("\n-\n");
-	while(x < seg->nsects)
+	cpt = 0;
+	sector = sector->racine->next;
+	while(sector != sector->racine)
 	{
-		printf("%s\n", sect->sectname);
-/*		if(array->n_sect == x)
+
+		cpt++;
+		if(cpt == array->n_sect)
 		{
-			if (!ft_strncmp(sect->sectname, SECT_DATA, 16))
-		return ('d');
-	else if (!ft_strncmp(sect->sectname, SECT_BSS, 16))
-		return ('b');
-	else if (!ft_strncmp(sect->sectname, SECT_TEXT, 16))
-		return ('t');
-			
-		}*/
-		sect = (void*)sect + sizeof(struct section_64);
-		x++;
-	}
-	return(0);
-}
+			if (!ft_strncmp(sector->sector_name, SECT_DATA, 16))
+				return ('d');
+			else if (!ft_strncmp(sector->sector_name, SECT_BSS, 16))
+				return ('b');
+			else if (!ft_strncmp(sector->sector_name, SECT_TEXT, 16))
+				return ('t');
 
-
-char get_seg(struct nlist_64 *array, void *ptr)
-{
-	struct mach_header_64	*header;
-	struct load_command		*lc;
-	int						n_cmd;
-	int							x;
-	char						ret;
-	struct segment_command_64	*seg;
-
-	x = 0;
-	ret = 0;
-	header = (struct mach_header_64 *)ptr;
-	n_cmd = header->ncmds;
-	lc = ptr + sizeof(*header);
-	while(x < n_cmd)
-	{
-		if(lc->cmd == LC_SEGMENT_64 )
-		{
-			seg = (struct segment_command_64*)lc;
-			
-			if((ret = get_sect(array, seg)) == 0)
-				break;
 		}
-		lc += lc->cmdsize / sizeof(void *);
-		x++;
+		sector = sector->next;
 	}
-	if(ret == 0)
-		ret = 's';
-	return(ret);
+	return('s');
 }
 
-char	get_type(struct nlist_64 *array, void *ptr)
+char	get_type_64(struct nlist_64 *array, t_circ *sector)
 {
 	uint8_t type;
 	char ret;
 
 	type = array->n_type & N_TYPE;
 	if (type == N_SECT)
-		ret = get_seg(array, ptr);
+		ret = compare_sect(array, sector);
 	else if (type == N_UNDF)
 		ret = 'u';
 	else if (type == N_PBUD)
@@ -156,9 +103,8 @@ int		 get_priority(char *str)
 
 void	set_data_64(t_circ *elem, struct nlist_64 *array,											char *stringtable, int type)
 {
-
 	elem->function_name = ft_strdup(stringtable + array->n_un.n_strx);
-	elem->type = get_type(array, elem->ptr);	
+	elem->type = get_type_64(array, (t_circ*)elem->racine->sector);	
 	elem->value = get_value(array->n_value, elem->type);
 	elem->n_desc = array->n_desc;
 	elem->priority = get_priority(elem->function_name);

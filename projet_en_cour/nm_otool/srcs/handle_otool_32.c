@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:31:49 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/12 14:37:10 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/26 19:29:43 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	print_data_text_32( struct section *sec, void *ptr, char *name, int ar)
 	cpt = 0;
 	str = (char *)ptr + sec->offset;
 	addr = (long unsigned int)sec->addr;
-	if(ar == 0 || ar == 2)
+	if(ar == 0 || ar == 5)
 		ft_printf("%s:\nContents of (__TEXT,__text) section\n",name);
 	else
 		ft_printf("Contents of (__TEXT,__text) section\n",name);
@@ -77,7 +77,7 @@ void	print_data_text_32( struct section *sec, void *ptr, char *name, int ar)
 		if(cpt % 16 == 0 && cpt !=  sec->size)
 			ft_printf("\n");
 	}
-	if(ar == 0 || ar == 2)
+	if(ar == 0 || ar == 5)
 		ft_printf("\n");
 }
 

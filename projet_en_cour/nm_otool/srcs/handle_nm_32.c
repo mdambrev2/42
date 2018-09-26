@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:31:49 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/20 15:33:58 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/26 18:06:30 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,8 @@ t_circ					*nm_x32_bin(void *ptr)
 	
 	ret = create_circular_list();
 	ret->ptr = ptr;
+	ret->sector = (void*)get_seg_32(ptr);
 	get_function_name_32(ret, ptr);
-	ret = ret->racine->next;
-//	get_symbol_type(ret);
-//	get_value(ret);
 	return(ret);
 }
 

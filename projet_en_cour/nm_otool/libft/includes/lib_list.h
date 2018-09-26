@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/17 00:01:14 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/14 15:54:21 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/26 17:05:34 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct		s_circ
 	struct s_circ	*prev;
 	void			*content;
 	char			*function_name;
+	char			*sector_name;
 	char			type;
 	char			*value;
 	int				is_64;
@@ -74,6 +75,7 @@ typedef struct		s_circ
 	int				is_archive;
 	uint16_t		n_desc;
 	char			*archive_name;
+	void			*sector;
 	void			*ptr;
 	int				priority;
 }					t_circ;

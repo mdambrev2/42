@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 17:39:34 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/05/23 17:13:23 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/26 17:17:53 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,25 +32,28 @@ t_circ				*addfin_circ_elem(t_circ *racine)
 {
 	t_circ			*new;
 	t_circ			*prev;
+	t_circ			*next;
 
 	if (racine == NULL)
-	{
-		ft_putstr("Error : Racine = NULL\n");
 		return (NULL);
-	}
 	new = (t_circ *)ft_memalloc(sizeof(t_circ ));
-	if (racine->prev == racine)
+	if(racine->next == racine->racine && racine->prev == racine->racine && racine == racine->racine)
 	{
+		new->next = racine->racine;
+		new->prev = racine->racine;
+		new->racine = racine->racine;
 		racine->next = new;
 		racine->prev = new;
+		return (new);
 	}
-	prev = racine->prev;
+	next = racine->racine;
+	prev = racine->racine->prev;
 	prev->next = new;
+	next->prev = new;
 	new->prev = prev;
-
-	racine->prev = new;
-	new->next = racine;
-	new->racine = racine;
+	new->next = next;
+	new->racine = racine->racine;
+	new->ptr = new->racine->ptr;
 	return (new);
 }
 

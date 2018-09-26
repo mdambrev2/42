@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 16:25:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/20 15:40:04 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/26 19:33:58 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,14 @@ void				map(char * str, int ac, int set)
 	if(S_ISDIR(buf.st_mode) == 1)
 		 return(put_buff_error(str));
 	ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
-	ac = 0;
-	if(set == 0)
+	if(set == 0 && ac <= 2)
 		nm(ptr, str, 0, &buf);
-	else if(set == 1)
-		otool(ptr, str, ac, &buf);
+	else if(set == 0 && ac > 2)
+		nm(ptr, str, 5, &buf);
+	else if(set == 1 && ac <= 2)
+		otool(ptr, str, 0, &buf);
+	else if(set == 1 && ac > 2)
+		otool(ptr, str, 5, &buf);
 	munmap(ptr, buf.st_size);
 }
 
@@ -36,12 +39,13 @@ void				map(char * str, int ac, int set)
 void					put_list(t_circ *ret, char *name, int ac)
 {
 	ret = ret->racine->next;
-	if(ac > 2)
+	if(ac > 2 && ac != 5)
 		ft_printf("\n%s\n", name);
+	else if(ac == 5)
+		ft_printf("\n%s:\n", name);
 	if(ret->type == 'T' && ret->value[0] == '_')
 	{
 		free(ret->value);
-		ret->value = ft_strdup("toto\n");
 	}
 
 	while(ret != ret->racine)
@@ -112,17 +116,16 @@ void				otool(void *ptr, char *str, int ac, struct stat *buf)
 	}
 	else if(magic_number == FAT_MAGIC || magic_number == FAT_CIGAM)
 	{
-		if(check_fat_corrupt(ptr, buf, str) == 1)
-			return;
+//		if(check_fat_corrupt(ptr, buf, str) == 1)
+//			return;
 		return(unzip_fat_otool(ptr, str, ac, buf));
 	}
 	else if((*(uint64_t *)ptr) == AR_MAGIC || (*(uint64_t *)ptr) == AR_CIGAM)
 	{
 		if(check_ar_corrupt(ptr, buf, str) == 1)
 			return;
-		return (unzip_ar_otool(ptr, str, ac, buf));
+		return (unzip_ar_otool(ptr, str, buf, ac));
 	}
 	else 
 		return(put_type_error(str));
-	put_list(to_put, str, ac);
 }

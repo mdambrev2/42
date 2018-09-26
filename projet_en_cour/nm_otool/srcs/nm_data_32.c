@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nm_data_32.c                                       :+:      :+:    :+:   */
+/*   nm_data_64.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 16:45:02 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/20 16:17:36 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/26 18:15:57 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,74 +40,39 @@ char 	*get_value_32(uint64_t value, char c)
 	return(ret);
 }
 
-char	get_sect_32(struct nlist *array, struct segment_command *seg, t_circ *elem)
+static char	compare_sect(struct nlist *array, t_circ *sector)
 {
-	
 	int cpt;
-	int x;
-	struct section *sect;
 
-	cpt = array->n_sect;
-	sect = (void*)seg + sizeof(struct segment_command);
-	x = 0;
-	while(x < cpt)
+	cpt = 0;
+	sector = sector->racine->next;
+	while(sector != sector->racine)
 	{
-		sect = (void*)sect + 2;
-		x++;
-	}
-	if(ft_strcmp("_g_choose", elem->function_name) == 0)
-	{
-		printf("%s %s\n", sect->segname, sect->sectname);
-	}
-	elem++;
-	elem--;
-	if (!ft_strncmp(sect->sectname, SECT_DATA, 16))
-		return ('d');
-	else if (!ft_strncmp(sect->sectname, SECT_BSS, 16))
-		return ('b');
-	else if (!ft_strncmp(sect->sectname, SECT_TEXT, 16))
-		return ('t');
-	return ('s');
-}
 
-
-char get_seg_32(struct nlist *array, t_circ *elem)
-{
-	struct mach_header	*header;
-	struct load_command		*lc;
-	int						n_cmd;
-	int							x;
-	char						ret;
-	struct segment_command	*seg;
-
-	x = 0;
-	ret = 0;
-	header = (struct mach_header*)elem->ptr;
-	n_cmd = header->ncmds;
-	lc = elem->ptr + sizeof(struct mach_header);
-	while(x < n_cmd)
-	{
-		if(lc->cmd == LC_SEGMENT)
+		cpt++;
+		if(cpt == array->n_sect)
 		{
-			seg = (struct segment_command*)lc;	
-			if((ret = get_sect_32(array, seg, elem)) != 's')
-				break;
+			if (!ft_strncmp(sector->sector_name, SECT_DATA, 16))
+				return ('d');
+			else if (!ft_strncmp(sector->sector_name, SECT_BSS, 16))
+				return ('b');
+			else if (!ft_strncmp(sector->sector_name, SECT_TEXT, 16))
+				return ('t');
+
 		}
-		lc = (void*)lc + lc->cmdsize;
-		x++;
+		sector = sector->next;
 	}
-	return(ret);
+	return('s');
 }
 
-char	get_type_32(struct nlist *array, t_circ *elem)
+char	get_type_32(struct nlist *array, t_circ *sector)
 {
 	uint8_t type;
 	char ret;
 
-
 	type = array->n_type & N_TYPE;
 	if (type == N_SECT)
-		ret = get_seg_32(array, elem);
+		ret = compare_sect(array, sector);
 	else if (type == N_UNDF)
 		ret = 'u';
 	else if (type == N_PBUD)
@@ -124,9 +89,9 @@ char	get_type_32(struct nlist *array, t_circ *elem)
 		return (ret);
 }
 
-int      get_priority_32(char *str)
+int		 get_priority_32(char *str)
 {
-	int x;
+	int	x;
 
 	x = 0;
 	while(str[x] && str[x] == '_')
@@ -136,14 +101,14 @@ int      get_priority_32(char *str)
 
 void	set_data_32(t_circ *elem, struct nlist *array,											char *stringtable, int type)
 {
-
 	elem->function_name = ft_strdup(stringtable + array->n_un.n_strx);
-	elem->type = get_type_32(array, elem);
+	elem->type = get_type_32(array, (t_circ*)elem->racine->sector);	
 	elem->value = get_value_32(array->n_value, elem->type);
 	elem->n_desc = array->n_desc;
 	elem->priority = get_priority_32(elem->function_name);
-	type = 32;
-	elem->is_32 = 1;
-	elem->racine->is_32 = 1;
+	if(type == 64)
+	{
+		elem->is_64 = 1;
+		elem->racine->is_64 = 1;
+	}
 }
-
