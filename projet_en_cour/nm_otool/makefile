@@ -6,7 +6,7 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/09/26 16:47:01 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/09/27 13:46:16 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ SRC 	=	put_nm_add.c\
 			corrupted_file_fat.c\
 			corrupted_file_ar.c\
 			get_segment.c\
+			no_leaks.c\
 
 LIBFT	=	ft_strlen.c\
 			ft_putstr.c\

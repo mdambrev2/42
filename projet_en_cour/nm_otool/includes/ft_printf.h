@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 18:44:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/12 13:14:18 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/29 19:41:29 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,6 @@ void		addint_prescision(t_circ *elem);
 void		ret_wchar(va_list *ap, t_circ *elem);
 void		ret_wstring(va_list *ap, t_circ *elem);
 t_circ		*add_elem_inblock_down(t_circ *ret);
+char		get_type_64(void *array, t_circ *sector);
+
 #endif

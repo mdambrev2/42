@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/17 00:01:14 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/26 17:05:34 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/29 15:20:16 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ typedef struct		s_circ
 	int				is_fat;
 	int				is_archive;
 	uint16_t		n_desc;
-	char			*archive_name;
+	uint32_t		ran_off;
+	uint32_t		ran_cpt;
 	void			*sector;
 	void			*ptr;
 	int				priority;

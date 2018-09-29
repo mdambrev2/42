@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 18:44:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/26 18:58:45 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/27 16:03:54 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@
 
 void					test(void);
 char					**check_args(int ac, char **av);
-void					put_args_missing(char *str);
-void					put_open_args_fail(char *str);
-void                	put_buff_error(char *str);
-void					put_type_error(char *str);
+int						put_args_missing(char *str);
+int						put_open_args_fail(char *str);
+int	                	put_buff_error(char *str);
+int						put_type_error(char *str);
 t_circ					*nm_x64_bin(void *ptr);
 t_circ					*nm_x32_bin(void *ptr);
 void					set_info_list_order(t_circ *ret, void *array,											char *stringtable, int type);
@@ -44,20 +44,23 @@ void					set_data_64(t_circ *elem, struct nlist_64 *array,
 void					set_data_32(t_circ *elem, struct nlist *array,
 								char *stringtable, int type);
 void					unzip_fat(void *ptr, void *name, int ac, struct stat *buf);
-void					nm(void *ptr, char *str, int ac, struct stat *buf);
+int						nm(void *ptr, char *str, int ac, struct stat *buf);
 void					unzip_ar(void *ptr, void *name, int ac, struct stat *buf);
 void					unzip_ar_otool(void *ptr, void *name, struct stat *buf, int ac);
 t_circ                  *otool_x64_bin(void *ptr, char *name, int ar);
 t_circ                  *otool_x32_bin(void *ptr, char *name, int ar);
-void					otool(void *ptr, char *str, int ac, struct stat *buf);
-void                	map(char * ptr, int ac, int set);
+int						otool(void *ptr, char *str, int ac, struct stat *buf);
+int	                	map(char * ptr, int ac, int set);
 void					unzip_fat_otool(void *ptr, void *name, int ac, struct stat *buf);
 int						check_x32_x64_corrupt(void *ptr, struct stat *buf, char *str, int x);
-void					put_corrupted_files(char *str);
-void					put_wrong_command_size(char *str);
+int						put_corrupted_files(char *str);
+int						put_wrong_command_size(char *str);
 int						check_fat_corrupt(void *ptr, struct stat *buf, char *str);
 int						check_ar_corrupt(void *ptr, struct stat *buf, char *str);
 t_circ					*get_seg_64(void *ptr);
 t_circ                  *get_seg_32(void *ptr);
+void					free_sector(t_circ *sector);
+void					free_main_list(t_circ *ret);
+void					free_tab(char **tab);
 
 #endif
