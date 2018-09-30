@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/08 23:03:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/05/31 17:40:09 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/30 16:45:33 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+char				*ft_strend(char *str);
 void				ft_put_hexa(uintmax_t quotient);
 void				ft_put_base_max(uintmax_t quotient, int base);
 int					ft_putwchar(wchar_t c, int aff);

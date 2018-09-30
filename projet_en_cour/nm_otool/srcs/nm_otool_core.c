@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 16:25:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/29 21:12:28 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/30 20:10:55 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,15 +79,15 @@ int						nm(void *ptr, char *str, int ac, struct stat *buf)
 	}
 	else if (magic_number == FAT_MAGIC || magic_number == FAT_CIGAM)
 	{
-		if (check_fat_corrupt(ptr, buf, str) == 1)
-			return (0);
+//		if (check_fat_corrupt(ptr, buf, str) == 1)
+//			return (0);
 		unzip_fat(ptr, str, ac, buf);
 		return (0);
 	}
 	else if ((*(uint64_t *)ptr) == AR_MAGIC || (*(uint64_t *)ptr) == AR_CIGAM)
 	{
-		if (check_ar_corrupt(ptr, buf, str) == 1)
-			return (0);
+//		if (check_ar_corrupt(ptr, buf, str) == 1)
+//			return (0);
 		unzip_ar(ptr, str, ac, buf);
 		return (0);
 	}

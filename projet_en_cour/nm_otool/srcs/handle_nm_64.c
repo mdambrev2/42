@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:31:49 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/29 21:11:07 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/30 20:13:09 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,26 @@ void						set_data_list_64(t_circ *ret, int nsyms,
 	char					*stringtable;
 	struct nlist_64			*array;
 	int						i;
+	uint8_t					check1;
+	uint8_t					check2;
+
 
 	array = (void*)ptr + symoff;
 	stringtable = (void*)ptr + stroff;
 	i = 0;
-	while(array[i].n_sect == 0)
-		i++;
 	while (i < (int)nsyms)
 	{
+		check1 = array[i].n_type & N_TYPE;
+		check2 = array[i].n_type & N_EXT;
+		while(check2 == 0 && (check1 == N_UNDF || check1 == N_PBUD))
+		{
+			i++;
+			check1 = array[i].n_type & N_TYPE;
+			check2 = array[i].n_type & N_EXT;
+		}
 		set_info_list_order(ret, &array[i], stringtable, 64);
 		i++;
-	}
+		}
 }
 
 void						get_function_name_64(t_circ *ret, void *ptr)

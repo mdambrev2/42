@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 13:16:35 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/29 20:20:08 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/09/30 18:19:26 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ t_circ					*sort_by_desc_64(t_circ *ret, struct nlist_64 *array,
 	tmp = ret->racine->next;
 	while (tmp != ret->racine)
 	{
+		if (ft_strcmp(stringtable + array->n_un.n_strx, tmp->function_name) == 0
+			&&	array->n_value == 0 && tmp->value[0] != ' ')
+			return(tmp);
+
 		if (ft_strcmp(stringtable + array->n_un.n_strx, tmp->function_name) < 0)
 			return (tmp);
 		tmp = tmp->next;

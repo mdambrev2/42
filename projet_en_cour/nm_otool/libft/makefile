@@ -6,13 +6,14 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/03/23 18:34:20 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/09/30 16:46:29 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = libft.a
 GWW = GCC -Wall -Wextra -Werror
 INC_LIB = ./includes/
 SRC =		./ft_atoi.c \
+				./ft_strend.c\
 				./ft_charchr.c \
 				./ft_strlower.c \
 				./ft_strupper.c \
