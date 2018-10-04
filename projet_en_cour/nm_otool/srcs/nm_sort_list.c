@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 13:16:35 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/30 18:19:26 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/04 16:11:24 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ t_circ					*sort_by_desc_32(t_circ *ret, struct nlist *array,
 	tmp = ret->racine->next;
 	while (tmp != ret->racine)
 	{
-		if (ft_strcmp(stringtable + array->n_un.n_strx, tmp->function_name) < 0)
+		if (ft_strcmp(stringtable + if_ppc_swap(array->n_un.n_strx), tmp->function_name) == 0
+			&&	array->n_value == 0 && tmp->value[0] != ' ')
+			return(tmp);
+		if (ft_strcmp(stringtable + if_ppc_swap(array->n_un.n_strx), tmp->function_name) < 0)
 			return (tmp);
 		tmp = tmp->next;
 	}
@@ -37,11 +40,11 @@ t_circ					*sort_by_desc_64(t_circ *ret, struct nlist_64 *array,
 	tmp = ret->racine->next;
 	while (tmp != ret->racine)
 	{
-		if (ft_strcmp(stringtable + array->n_un.n_strx, tmp->function_name) == 0
+		if (ft_strcmp(stringtable + if_ppc_swap(array->n_un.n_strx), tmp->function_name) == 0
 			&&	array->n_value == 0 && tmp->value[0] != ' ')
 			return(tmp);
 
-		if (ft_strcmp(stringtable + array->n_un.n_strx, tmp->function_name) < 0)
+		if (ft_strcmp(stringtable + if_ppc_swap(array->n_un.n_strx), tmp->function_name) < 0)
 			return (tmp);
 		tmp = tmp->next;
 	}
@@ -62,14 +65,14 @@ void					set_info_list_order(t_circ *ret, void *array,
 	array64 = (struct nlist_64*)array;
 	elem = NULL;
 	if (type == 64 && get_type_64(array, (t_circ*)ret->racine->sector) != '?'
-		&& ((char *)stringtable + array64->n_un.n_strx)[0] != 0)
+		&& ((char *)stringtable + if_ppc_swap(array64->n_un.n_strx))[0] != 0)
 	{
 		prev_elem = sort_by_desc_64(ret, array64, stringtable);
 		elem = add_elem_inblock_up(prev_elem);
 		set_data_64(elem, array64, stringtable, type);
 	}
-	if (type == 32 && get_type_64(array, (t_circ*)ret->racine->sector) != '?' 
-		&& ((char *)stringtable + array64->n_un.n_strx)[0] != 0 )
+	if (type == 32 && get_type_32(array32, (t_circ*)ret->racine->sector) != '?' 
+		&& ((char *)stringtable + if_ppc_swap(array64->n_un.n_strx))[0] != 0 )
 	{
 		prev_elem = sort_by_desc_32(ret, array32, stringtable);
 		elem = add_elem_inblock_up(prev_elem);

@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 15:24:14 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/28 21:32:10 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/03 16:36:46 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 int					put_open_args_fail(char *str)
 {
-	ft_putstr("/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeD");
+/*	ft_putstr("/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeD");
 	ft_putstr("efault.xctoolchain/usr/bin/nm:");
 	if (errno == ENOENT)
 		ft_printf(" %s: No such file or directory.\n", str);
 	if (errno == EACCES)
 		ft_printf(" %s: Permission denied.\n", str);
+*/	
+	str = NULL;
 	return (-1);
 }
 

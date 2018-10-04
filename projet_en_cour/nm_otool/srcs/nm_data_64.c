@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 16:45:02 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/30 20:09:10 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/04 16:02:23 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ char				*get_value_64(uint64_t value, char c)
 
 	x = 0;
 	tojoin = NULL;
-	if (value == 0 && c != 'T' && c != 't')
+	if (value == 0 && c != 'T' && c != 't' && c != 'A')
 		return (ft_strdup("                "));
-	if (value == 0 && (c == 'T' || c == 't'))
+	if (value == 0 && (c == 'T' || c == 't' || c == 'A'))
 		return (ft_strdup("0000000000000000"));
 	tmp = ft_convert_base_max(value, 16);
 	strlen = 16 - ft_strlen(tmp);
@@ -74,7 +74,12 @@ char				get_type_64(void *array, t_circ *sector)
 	if (type == N_SECT)
 		ret = compare_sect((struct nlist_64 *)array, sector);
 	else if (type == N_UNDF)
-		ret = 'u';
+	{
+		if (((struct nlist_64*)array)->n_value == 0)
+			ret = 'u';
+		else
+			ret = 'c';
+	}
 	else if (type == N_PBUD)
 		ret = 'u';
 	else if (type == N_ABS)
@@ -102,10 +107,10 @@ int					get_priority_64(char *str)
 void				set_data_64(t_circ *elem, struct nlist_64 *array,
 								char *stringtable, int type)
 {
-	elem->function_name = ft_strdup(stringtable + array->n_un.n_strx);
+	elem->function_name = ft_strdup(stringtable + if_ppc_swap(array->n_un.n_strx));
 	elem->type = get_type_64(array, (t_circ*)elem->racine->sector);
-	elem->value = get_value_64(array->n_value, elem->type);
-	elem->n_desc = array->n_desc;
+	elem->value = get_value_64(if_ppc_swap(array->n_value), elem->type);
+	elem->n_desc = if_ppc_swap(array->n_desc);
 	elem->priority = get_priority_64(elem->function_name);
 	if (type == 64)
 	{

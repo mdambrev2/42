@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 16:25:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/30 20:10:55 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/04 20:45:26 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int						nm(void *ptr, char *str, int ac, struct stat *buf)
 
 	magic_number = *(int *)ptr;
 	to_put = NULL;
+
 	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
 	{
 		if (ac != 2 && check_x32_x64_corrupt(ptr, buf, str, 1) == 1)
@@ -79,15 +80,15 @@ int						nm(void *ptr, char *str, int ac, struct stat *buf)
 	}
 	else if (magic_number == FAT_MAGIC || magic_number == FAT_CIGAM)
 	{
-//		if (check_fat_corrupt(ptr, buf, str) == 1)
-//			return (0);
+		if (check_fat_corrupt(ptr, buf, str) == 1)
+			return (0);
 		unzip_fat(ptr, str, ac, buf);
 		return (0);
 	}
 	else if ((*(uint64_t *)ptr) == AR_MAGIC || (*(uint64_t *)ptr) == AR_CIGAM)
 	{
-//		if (check_ar_corrupt(ptr, buf, str) == 1)
-//			return (0);
+		if (ac != 2 && check_ar_corrupt(ptr, buf, str) == 1)
+			return (0);
 		unzip_ar(ptr, str, ac, buf);
 		return (0);
 	}
@@ -106,14 +107,14 @@ int						otool(void *ptr, char *str, int ac, struct stat *buf)
 	to_put = NULL;
 	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
 	{
-		if (ac != 2 && check_x32_x64_corrupt(ptr, buf, str, 1) == 1)
+		if (ac != 2 && ac != 3 && check_x32_x64_corrupt(ptr, buf, str, 3) == 1)
 			return (-1);
 		otool_x64_bin(ptr, str, ac);
 		return (0);
 	}
 	else if (magic_number == MH_MAGIC || magic_number == MH_CIGAM)
 	{
-		if (ac != 2 && check_x32_x64_corrupt(ptr, buf, str, 2) == 1)
+		if (ac != 2 && ac != 3 && check_x32_x64_corrupt(ptr, buf, str, 4) == 1)
 			return (-1);
 		otool_x32_bin(ptr, str, ac);
 		return (0);
@@ -126,11 +127,11 @@ int						otool(void *ptr, char *str, int ac, struct stat *buf)
 	}
 	else if ((*(uint64_t *)ptr) == AR_MAGIC || (*(uint64_t *)ptr) == AR_CIGAM)
 	{
-		if (check_ar_corrupt(ptr, buf, str) == 1)
+		if (ac != 3 && check_ar_corrupt(ptr, buf, str) == 1)
 			return (-1);
 		unzip_ar_otool(ptr, str, buf, ac);
 	}
-	else
-		return (put_type_error(str));
+	else if(magic_number != DS_STORE)
+		return (put_type_otool_error(str));
 	return (0);
 }

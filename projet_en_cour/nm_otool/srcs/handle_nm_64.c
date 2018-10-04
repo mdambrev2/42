@@ -6,11 +6,20 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:31:49 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/30 20:13:09 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/04 15:59:02 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <nm_otool.h>
+
+uint64_t    swap_uint64(uint64_t n)
+{
+	n = ((n << 8) & 0xFF00FF00FF00FF00ULL) \
+		| ((n >> 8) & 0x00FF00FF00FF00FFULL);
+	n = ((n << 16) & 0xFFFF0000FFFF0000ULL) \
+		| ((n >> 16) & 0x0000FFFF0000FFFFULL);
+	return ((n << 32) | (n >> 32));
+}
 
 void						set_data_list_64(t_circ *ret, int nsyms,
 								int symoff, int stroff, void *ptr)
@@ -50,16 +59,18 @@ void						get_function_name_64(t_circ *ret, void *ptr)
 
 	x = 0;
 	header = (struct mach_header_64 *)ptr;
-	n_cmd = header->ncmds;
+	n_cmd = if_ppc_swap(header->ncmds);
 	lc = ptr + sizeof(*header);
 	while (x < n_cmd)
 	{
-		if (lc->cmd == LC_SYMTAB)
+		if (if_ppc_swap(lc->cmd) == LC_SYMTAB)
 		{
 			sym = (struct symtab_command *)lc;
-			set_data_list_64(ret, sym->nsyms, sym->symoff, sym->stroff, ptr);
+			set_data_list_64(ret, if_ppc_swap(sym->nsyms),
+							if_ppc_swap(sym->symoff),
+							if_ppc_swap(sym->stroff), ptr);
 		}
-		lc = (void*)lc + lc->cmdsize;
+		lc = (void*)lc + if_ppc_swap(lc->cmdsize);
 		x++;
 	}
 	ret = NULL;

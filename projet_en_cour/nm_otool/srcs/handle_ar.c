@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 15:01:08 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/30 20:13:40 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/04 20:53:48 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void						unzip_ar(void *ptr, void *name,
 	tmp = ptr + SARMAG;
 	header_ar = (struct ar_hdr *) tmp;
 	tmp += ft_atoi(header_ar->ar_size) + sizeof(struct ar_hdr);
-	while(tmp)
+	while(tmp != ptr + buf->st_size && ((char *)tmp)[0] != '!' )
 	{
 			header_ar = (struct ar_hdr *) tmp;
 			ar_name = tmp + sizeof(struct ar_hdr);
@@ -57,20 +57,25 @@ void						unzip_ar_otool(void *ptr, void *name,
 	void					*tmp;
 	char					*ar_name;
 
-	ac = 2;	
+	if(ac == 3)
+		if_sector_empty_banners(2);
 	tmp = ptr + SARMAG;
 	header_ar = (struct ar_hdr *) tmp;
 	tmp += ft_atoi(header_ar->ar_size) + sizeof(struct ar_hdr);
 	ft_printf("Archive : %s", name);
-	while(tmp != ptr + buf->st_size)
+	while(tmp != ptr + buf->st_size && ((char *)tmp)[0] != '!')
 	{
 			header_ar = (struct ar_hdr *) tmp;
 			ar_name = tmp + sizeof(struct ar_hdr);
-			ft_printf("\n%s(%s):\n", name, ar_name);
+			if(if_sector_empty_banners(0) != 1)
+				ft_printf("\n");
+			else
+				if_sector_empty_banners(-1);
+			ft_printf("%s(%s):\n", name, ar_name);
 			ar_name = ft_strend(ar_name);
 			while(*ar_name == 0)
 				ar_name++;
-			otool(ar_name, name, ac, buf);			
+			otool(ar_name, name, 2, buf);			
 			tmp += ft_atoi(header_ar->ar_size) + sizeof(struct ar_hdr);
 	}
 	ft_printf("\n");

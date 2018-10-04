@@ -1,4 +1,4 @@
-/* ************************************************************************** */
+/*e************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   nm_otool.h                                         :+:      :+:    :+:   */
@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 18:44:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/27 16:03:54 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/04 18:44:49 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 # define AR_MAGIC 0x213c617263683e0a
 # define AR_CIGAM 0x0a3e686372613c21
+# define DS_STORE 16777216
 
 void					test(void);
 char					**check_args(int ac, char **av);
@@ -62,5 +63,15 @@ t_circ                  *get_seg_32(void *ptr);
 void					free_sector(t_circ *sector);
 void					free_main_list(t_circ *ret);
 void					free_tab(char **tab);
+uint32_t                swap_uint32(uint32_t val);
+int						static_banner_ppc(int modifier);
+uint32_t				if_ppc_swap(uint32_t value);
+char					get_type_32(struct nlist *array, t_circ *sector);
+uint64_t				swap_uint64(uint64_t n);
+int						put_wrong_command_otool_size(char *str);
+int						put_corrupted_otool_files(char *str);
+int						put_type_otool_error(char *str);
+int						put_open_otool_args_fail(char *str);
+int						if_sector_empty_banners(int x);
 
 #endif

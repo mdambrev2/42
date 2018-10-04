@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/11 14:04:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/28 19:43:47 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/04 17:01:52 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int							check_size_corrupt_x32(void *ptr,
 
 	x = 0;
 	check = 0;
-	if (y != 2)
+	if (y != 2 && y != 4)
 		return (0);
 	header = (struct mach_header *)ptr;
 	ncmd = header->ncmds;
@@ -79,7 +79,7 @@ int							check_size_corrupt_x64(void *ptr,
 
 	x = 0;
 	check = 0;
-	if (y != 1)
+	if (y != 1 && y != 3)
 		return (0);
 	header = (struct mach_header_64 *)ptr;
 	ncmd = header->ncmds;
@@ -101,16 +101,29 @@ int							check_size_corrupt_x64(void *ptr,
 int							check_x32_x64_corrupt(void *ptr,
 								struct stat *buf, char *str, int x)
 {
+	if (x <= 2 && ( check_size_corrupt_x64(ptr, buf, x) == 1
+			|| check_size_corrupt_x32(ptr, buf, x) == 1))
+	{
+		put_corrupted_files(str);
+		return (1);
+	}
+	if (x <= 2 && (check_size_corrupt_x64(ptr, buf, x) == 2
+			|| check_size_corrupt_x32(ptr, buf, x) == 2))
+	{
+		put_wrong_command_size(str);
+		return (1);
+	}
 	if (check_size_corrupt_x64(ptr, buf, x) == 1
 			|| check_size_corrupt_x32(ptr, buf, x) == 1)
 	{
-		put_corrupted_files(str);
+
+		put_corrupted_otool_files(str);
 		return (1);
 	}
 	if (check_size_corrupt_x64(ptr, buf, x) == 2
 			|| check_size_corrupt_x32(ptr, buf, x) == 2)
 	{
-		put_wrong_command_size(str);
+		put_wrong_command_otool_size(str);
 		return (1);
 	}
 	return (0);

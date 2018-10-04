@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:31:49 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/28 20:57:58 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/04 21:38:18 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,14 @@ void							print_data_text(struct section_64 *sec,
 	void						*addr;
 
 	cpt = 0;
-	str = (char *)ptr + sec->offset;
+	str = (char *)ptr + swap_uint32(sec->offset);
 	addr = (void *)sec->addr;
 	if (ar == 0 || ar == 5)
 		ft_printf("%s:\nContents of (__TEXT,__text) section\n", name);
 	else
 		ft_printf("Contents of (__TEXT,__text) section\n", name);
-	while (cpt < sec->size)
+
+	while (cpt < if_ppc_swap(sec->size))
 	{
 		if (cpt % 16 == 0 || cpt == 0)
 			addr = put_addres_otool(addr);
@@ -74,10 +75,12 @@ void							print_data_text(struct section_64 *sec,
 		ft_printf("%s ", str1);
 		free(str1);
 		cpt++;
-		if (cpt % 16 == 0 && cpt != sec->size)
+		if (cpt % 16 == 0 && cpt != if_ppc_swap(sec->size) && cpt != 0)
 			ft_printf("\n");
 	}
-	if (ar == 5 || ar == 0)
+	if(cpt == 0)
+		if_sector_empty_banners(1);
+	if ((ar == 5 || ar == 0))
 		ft_printf("\n");
 }
 
@@ -88,7 +91,7 @@ void							find__text(struct segment_command_64 *seg,
 	int							x;
 	struct section_64			*sec;
 
-	cpt = seg->nsects;
+	cpt = if_ppc_swap(seg->nsects);
 	sec = (void*)seg + sizeof(struct segment_command_64);
 	x = 0;
 	while (x < cpt)
@@ -110,17 +113,19 @@ t_circ							*otool_x64_bin(void *ptr, char *name, int ar)
 
 	x = 0;
 	header = (struct mach_header_64 *)ptr;
-	n_cmd = header->ncmds;
+	n_cmd = if_ppc_swap(header->ncmds);
 	lc = ptr + sizeof(struct mach_header_64);
 	while (x < n_cmd)
 	{
-		if (lc->cmd == LC_SEGMENT_64)
+		if (if_ppc_swap(lc->cmd) == LC_SEGMENT_64)
 		{
 			seg = (struct segment_command_64*)lc;
 			find__text(seg, ptr, name, ar);
 		}
-		lc = (void *)lc + lc->cmdsize;
+		lc = (void *)lc + if_ppc_swap(lc->cmdsize);
 		x++;
 	}
+	if (ar == 3 && if_sector_empty_banners(0) != 1)
+		printf("\n");
 	return (NULL);
 }

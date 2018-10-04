@@ -6,7 +6,7 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/09/30 16:47:05 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/10/04 18:48:13 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC_MAIN =	nm_main.c\
 			otool_main.c\
 
 SRC 	=	put_nm_add.c\
+			put_otool_add.c\
 			parsing_args.c\
 			handle_nm_64.c\
 			nm_data_64.c\
@@ -35,6 +36,7 @@ SRC 	=	put_nm_add.c\
 			corrupted_file_x64_x32.c\
 			corrupted_file_fat.c\
 			corrupted_file_ar.c\
+			nm_otool_utils.c\
 			get_segment.c\
 			no_leaks.c\
 
