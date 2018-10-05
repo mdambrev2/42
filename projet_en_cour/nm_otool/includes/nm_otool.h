@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 18:44:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/04 18:44:49 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/05 17:26:04 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void					free_main_list(t_circ *ret);
 void					free_tab(char **tab);
 uint32_t                swap_uint32(uint32_t val);
 int						static_banner_ppc(int modifier);
-uint32_t				if_ppc_swap(uint32_t value);
+uint64_t				if_ppc_swap(uint64_t value);
 char					get_type_32(struct nlist *array, t_circ *sector);
 uint64_t				swap_uint64(uint64_t n);
 int						put_wrong_command_otool_size(char *str);

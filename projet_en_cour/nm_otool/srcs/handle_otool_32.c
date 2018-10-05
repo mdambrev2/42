@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:31:49 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/04 21:45:06 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/05 16:43:40 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,39 @@ uint32_t							put_addres_otool_32(uint32_t addr)
 	return (addr);
 }
 
+void								select_ppc_or_x86(uint64_t cpt, uint32_t *addr,
+										char *str)
+{
+	char *str1;
+
+	str1 = NULL;
+	if(static_banner_ppc(0) == 0)
+	{
+		if (cpt % 16 == 0 || cpt == 0)
+			*addr = put_addres_otool_32(*addr);
+		str1 = ft_convertn_base_max(str[cpt], 16, 2);
+		ft_printf("%s ", str1);
+		free(str1);
+	}
+	if(static_banner_ppc(0) == 32)
+	{
+		if (cpt % 16 == 0 || cpt == 0)
+			*addr = put_addres_otool_32(*addr);
+		str1 = ft_convertn_base_max(str[cpt], 16, 2);
+		ft_printf("%s", str1);
+		if( (cpt + 1 ) % 4 == 0)
+		{
+			ft_printf(" ", cpt);
+		}
+		free(str1);
+	}
+}
+
 void								print_data_text_32(struct section *sec,
 												void *ptr, char *name, int ar)
 {
 	uint64_t						cpt;
 	char							*str;
-	char							*str1;
 	uint32_t						addr;
 
 	cpt = 0;
@@ -68,11 +95,7 @@ void								print_data_text_32(struct section *sec,
 		ft_printf("Contents of (__TEXT,__text) section\n", name);
 	while (cpt < if_ppc_swap(sec->size))
 	{
-		if (cpt % 16 == 0 || cpt == 0)
-			addr = put_addres_otool_32(addr);
-		str1 = ft_convertn_base_max(str[cpt], 16, 2);
-		ft_printf("%s ", str1);
-		free(str1);
+		select_ppc_or_x86(cpt , &addr, str);
 		cpt++;
 		if (cpt % 16 == 0 && cpt != if_ppc_swap(sec->size))
 			ft_printf("\n");

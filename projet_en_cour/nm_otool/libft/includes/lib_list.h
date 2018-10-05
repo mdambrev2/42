@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/17 00:01:14 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/29 15:20:16 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/05 19:50:52 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef struct		s_circ
 	char			*sector_name;
 	char			type;
 	char			*value;
+	uint64_t		n_value;
 	int				is_64;
 	int				is_32;
 	int				is_fat;

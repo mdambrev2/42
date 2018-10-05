@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:31:49 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/04 21:38:18 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/05 15:57:04 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void							print_data_text(struct section_64 *sec,
 	void						*addr;
 
 	cpt = 0;
-	str = (char *)ptr + swap_uint32(sec->offset);
+	str = (char *)ptr + if_ppc_swap(sec->offset);
 	addr = (void *)sec->addr;
 	if (ar == 0 || ar == 5)
 		ft_printf("%s:\nContents of (__TEXT,__text) section\n", name);

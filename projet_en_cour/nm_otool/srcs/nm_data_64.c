@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 16:45:02 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/04 16:02:23 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/05 19:59:05 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void				set_data_64(t_circ *elem, struct nlist_64 *array,
 	elem->function_name = ft_strdup(stringtable + if_ppc_swap(array->n_un.n_strx));
 	elem->type = get_type_64(array, (t_circ*)elem->racine->sector);
 	elem->value = get_value_64(if_ppc_swap(array->n_value), elem->type);
+	elem->n_value = if_ppc_swap(array->n_value);
 	elem->n_desc = if_ppc_swap(array->n_desc);
 	elem->priority = get_priority_64(elem->function_name);
 	if (type == 64)

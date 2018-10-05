@@ -6,7 +6,7 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/10/04 18:48:13 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/10/05 19:07:32 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,6 +58,8 @@ LIBFT	=	ft_strlen.c\
 			ft_strstr.c\
 			ft_strchr.c\
 			ft_strend.c\
+			ft_tolower.c\
+			ft_toupper.c\
 		
 OBJ_DIR = ./obj
 SRC_DIR = ./srcs
