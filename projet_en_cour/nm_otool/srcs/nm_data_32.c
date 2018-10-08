@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 16:45:02 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/03 20:07:59 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/08 08:15:32 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char				*get_value_32(uint64_t value, char c)
 	int				x;
 
 	x = 0;
-	tojoin = NULL;
 	if (value == 0 && c != 'T' && c != 't')
 		return (ft_strdup("        "));
 	if (value == 0 && (c == 'T' || c == 't'))
@@ -102,7 +101,8 @@ int					get_priority_32(char *str)
 void				set_data_32(t_circ *elem, struct nlist *array,
 								char *stringtable, int type)
 {
-	elem->function_name = ft_strdup(stringtable + if_ppc_swap(array->n_un.n_strx));
+	elem->function_name = ft_strdup(stringtable
+			+ if_ppc_swap(array->n_un.n_strx));
 	elem->type = get_type_32(array, (t_circ*)elem->racine->sector);
 	elem->value = get_value_32(if_ppc_swap(array->n_value), elem->type);
 	elem->n_desc = if_ppc_swap(array->n_desc);

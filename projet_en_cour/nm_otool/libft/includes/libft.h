@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/08 23:03:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/30 16:45:33 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/08 10:58:47 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ int					ft_charchr(char *str, char c);
 char				*ft_strlower(char *str);
 char				*ft_strupper(char *str);
 char				*ft_convert_base_max(uintmax_t quotient, int base);
-char				*ft_convertn_base_max(uintmax_t quotient, int base,
-																	int n);
+char				*ft_convertn_base_max(uintmax_t quotient, int base, int n);
+char				*base_alloc(uintmax_t quotient, uintmax_t *mult, int base);
 char				*ft_strndup(char *str, int start, int end);
 int					ft_stringtonbr(char *str);
 int					nb_char_str(char *str, char c);

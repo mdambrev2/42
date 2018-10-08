@@ -6,7 +6,7 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/09/30 16:46:29 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/10/08 10:57:13 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = libft.a
@@ -18,6 +18,7 @@ SRC =		./ft_atoi.c \
 				./ft_strlower.c \
 				./ft_strupper.c \
 				./ft_convert_base.c \
+				./ft_convert_base_suite.c \
 				./ft_strndup.c \
 				./ft_stringtonbr.c \
 				./ft_bzero.c \

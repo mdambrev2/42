@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/11 14:04:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/04 17:01:52 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/08 06:02:21 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int							check_size_corrupt_x64(void *ptr,
 int							check_x32_x64_corrupt(void *ptr,
 								struct stat *buf, char *str, int x)
 {
-	if (x <= 2 && ( check_size_corrupt_x64(ptr, buf, x) == 1
+	if (x <= 2 && (check_size_corrupt_x64(ptr, buf, x) == 1
 			|| check_size_corrupt_x32(ptr, buf, x) == 1))
 	{
 		put_corrupted_files(str);
@@ -116,7 +116,6 @@ int							check_x32_x64_corrupt(void *ptr,
 	if (check_size_corrupt_x64(ptr, buf, x) == 1
 			|| check_size_corrupt_x32(ptr, buf, x) == 1)
 	{
-
 		put_corrupted_otool_files(str);
 		return (1);
 	}

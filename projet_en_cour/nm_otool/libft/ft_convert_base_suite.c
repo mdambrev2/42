@@ -1,34 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   otool_main.c                                       :+:      :+:    :+:   */
+/*   ft_convert_base_suite.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/14 12:56:00 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/08 10:44:37 by mdambrev         ###   ########.fr       */
+/*   Created: 2018/10/08 10:55:06 by mdambrev          #+#    #+#             */
+/*   Updated: 2018/10/08 11:05:18 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "nm_otool.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include "libft.h"
 
-int					main(int ac, char **av)
+char				*base_alloc(uintmax_t quotient,
+								uintmax_t *mult, int base)
 {
-	char			**file_tab;
-	int				x;
+	uintmax_t			x;
+	char				*ret;
 
 	x = 0;
-	if ((file_tab = check_args(ac, av)) == NULL)
-		return (EXIT_FAILURE);
-	while (file_tab[x] != 0)
+	while (quotient > 0)
 	{
-		if (map(file_tab[x], ac, 1) == -1)
-		{
-			free_tab(file_tab);
-			return (1);
-		}
+		quotient = quotient / base;
 		x++;
 	}
-	free_tab(file_tab);
-	return (0);
+	*mult = x;
+	if (*mult == 0)
+	{
+		ret = (char*)ft_memalloc(sizeof(char) * 2);
+		ret[0] = '0';
+		ret[1] = '\0';
+		return (ret);
+	}
+	ret = (char *)ft_memalloc(sizeof(char) * x);
+	ret[x] = '\0';
+	return (ret);
 }

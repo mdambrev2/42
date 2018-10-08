@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 15:01:08 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/28 21:52:23 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/08 06:00:36 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,21 @@ int						if_equal_ar(void *ptr, off_t offset_end,
 	return (0);
 }
 
-off_t					get_all_binary_size(char *ptr, struct stat *buf)
+int						offset_norm(char *ptr, struct ar_hdr *header_ar)
 {
-	struct ar_hdr		*header_ar;
+	return (((void *)header_ar + sizeof(struct ar_hdr)
+				+ ft_atoi(ft_strchr(header_ar->ar_name, '/')))
+			+ ft_atoi(header_ar->ar_size) - (void*)ptr);
+}
+
+off_t					get_all_binary_size(char *ptr, struct stat *buf,
+											struct ar_hdr *header_ar)
+{
 	struct ranlib		*array_bin;
 	uint32_t			nb_bin;
 	int					offset;
 	uint32_t			cpt;
 
-	header_ar = (void *)ptr + SARMAG;
 	cpt = 0;
 	offset = ft_atoi(ft_strchr(header_ar->ar_name, '/') + 1);
 	nb_bin = *(uint32_t*)((void*)header_ar + sizeof(struct ar_hdr)
@@ -46,27 +52,25 @@ off_t					get_all_binary_size(char *ptr, struct stat *buf)
 			cpt++;
 			continue;
 		}
-		offset = ((void *)header_ar + sizeof(struct ar_hdr)
-				+ ft_atoi(ft_strchr(header_ar->ar_name, '/')))
-					+ ft_atoi(header_ar->ar_size) - (void*)ptr;
+		offset = offset_norm(ptr, header_ar);
 		if (if_equal_ar(ptr, offset, buf) == 0)
 			return (0);
 		header_ar = (void *)ptr + array_bin[cpt].ran_off;
 		cpt++;
 	}
-	offset = ((void *)header_ar + sizeof(struct ar_hdr)
-			+ ft_atoi(ft_strchr(header_ar->ar_name, '/')))
-				+ ft_atoi(header_ar->ar_size) - (void*)ptr;
-	return (offset);
+	return (offset_norm(ptr, header_ar));
 }
 
-int						check_ar_corrupt(void *ptr, struct stat *buf, char *str)
+int						check_ar_corrupt(void *ptr, struct stat *buf,
+											char *str)
 {
 	off_t				offset;
 	int					ret;
+	struct ar_hdr		*header_ar;
 
 	ret = 0;
-	offset = get_all_binary_size(ptr, buf);
+	header_ar = (void *)ptr + SARMAG;
+	offset = get_all_binary_size(ptr, buf, header_ar);
 	ret = if_equal_ar(ptr, offset, buf);
 	if (ret == 1 && offset != 0)
 		put_corrupted_files(str);

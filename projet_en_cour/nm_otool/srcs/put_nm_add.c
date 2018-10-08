@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 15:24:14 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/03 16:36:46 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/08 10:43:40 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,49 +14,55 @@
 
 int					put_open_args_fail(char *str)
 {
-/*	ft_putstr("/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeD");
-	ft_putstr("efault.xctoolchain/usr/bin/nm:");
+	ft_putstr_fd("/Applications/Xcode.app/Contents/Developer", 2);
+	ft_putstr_fd("/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm: ", 2);
 	if (errno == ENOENT)
-		ft_printf(" %s: No such file or directory.\n", str);
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": No such file or directory.\n", 2);
+	}
 	if (errno == EACCES)
-		ft_printf(" %s: Permission denied.\n", str);
-*/	
-	str = NULL;
+	{
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": Permission denied.\n", 2);
+	}
 	return (-1);
 }
 
 int					put_buff_error(char *str)
 {
-	ft_putstr("/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeD");
-	ft_putstr("efault.xctoolchain/usr/bin/nm:");
-	ft_printf(" %s: Is a directory.\n", str);
+	ft_putstr_fd("/Applications/Xcode.app/Contents/Developer/", 2);
+	ft_putstr_fd("Toolchains/XcodeDefault.xctoolchain/usr/bin/nm: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(" : Is a directory.\n", 2);
 	return (-1);
 }
 
-int				put_type_error(char *str)
+int					put_type_error(char *str)
 {
-	//		ft_putstr("/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeD");
-	//		ft_putstr("efault.xctoolchain/usr/bin/nm:");
-	//		ft_printf(" %s: The file was not recognized as a valid object file\n",str);
-	str++;
-	str--;
+	ft_putstr_fd("/Applications/Xcode.app/Contents/Developer", 2);
+	ft_putstr_fd("/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": The file was not recognized as a valid object file\n", 2);
 	return (-1);
 }
 
-int				put_corrupted_files(char *str)
+int					put_corrupted_files(char *str)
 {
-	ft_putstr("/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeD");
-	ft_putstr("efault.xctoolchain/usr/bin/nm:");
-	ft_printf("%s: truncated or malformed object\n", str);
-	ft_putstr(" (filesize is not equal to the end of the file)\n");
+	ft_putstr_fd("/Applications/Xcode.app/Contents/Developer", 2);
+	ft_putstr_fd("/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm:", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": truncated or malformed object\n", 2);
+	ft_putstr_fd(" (filesize is not equal to the end of the file)\n", 2);
 	return (-1);
 }
 
-int				put_wrong_command_size(char *str)
+int					put_wrong_command_size(char *str)
 {
-	ft_putstr("/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeD");
-	ft_putstr("efault.xctoolchain/usr/bin/nm:");
-	ft_printf("%s: truncated or malformed object", str);
-	ft_putstr(" (load command 0 cmdsize not a multiple of 8)\n");
+	ft_putstr_fd("/Applications/Xcode.app/Contents/Developer", 2);
+	ft_putstr_fd("/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm:", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": truncated or malformed object", 2);
+	ft_putstr_fd(" (load command 0 cmdsize not a multiple of 8)\n", 2);
 	return (-1);
 }

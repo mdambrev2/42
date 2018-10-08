@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nm_data_32.c                                       :+:      :+:    :+:   */
+/*   nm_data_64.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 16:45:02 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/05 19:59:05 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/08 08:16:50 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ char				*get_value_64(uint64_t value, char c)
 	int				x;
 
 	x = 0;
-	tojoin = NULL;
 	if (value == 0 && c != 'T' && c != 't' && c != 'A')
 		return (ft_strdup("                "));
 	if (value == 0 && (c == 'T' || c == 't' || c == 'A'))
@@ -107,7 +106,8 @@ int					get_priority_64(char *str)
 void				set_data_64(t_circ *elem, struct nlist_64 *array,
 								char *stringtable, int type)
 {
-	elem->function_name = ft_strdup(stringtable + if_ppc_swap(array->n_un.n_strx));
+	elem->function_name = ft_strdup(stringtable
+						+ if_ppc_swap(array->n_un.n_strx));
 	elem->type = get_type_64(array, (t_circ*)elem->racine->sector);
 	elem->value = get_value_64(if_ppc_swap(array->n_value), elem->type);
 	elem->n_value = if_ppc_swap(array->n_value);
