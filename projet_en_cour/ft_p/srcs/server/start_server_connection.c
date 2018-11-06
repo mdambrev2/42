@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:05:07 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/05 19:26:50 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/06 20:46:59 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,21 @@ pid_t	start_multiple_connection(int sock, int *cs, int *n_client)
 	return(*cs);
 }
 
-char	*read_client(int *cs)
+int		client_contact(int cs, int n_client)
 {
-	char buf[1024];
-	int	r;
+	t_message 	msg;
+	char		*buf;
+	int			x;
 
-
-	ft_bzero(buf, 1024);
-	r = recv(*cs, buf, 1023, 0);
-	if(r != 0)
-		buf[r - 1] = '\0';
-	if(r <= 0)
-		return(NULL);
-	return(ft_strdup(buf));
+	msg.messagetype = 0;
+	while((x = receive(cs, &msg)) == 1)
+	{
+		if((buf = read_data(cs, msg)) == NULL)
+			return(-1);
+		client_reply(cs, buf, n_client);
+	}
+	if(x == -1)
+		return(-1);
+	return(0);
 }
+

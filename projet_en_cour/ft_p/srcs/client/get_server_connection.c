@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:05:07 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/05 20:06:51 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/06 20:14:14 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ int		write_server_sock(int cs)
 	ft_putstr("Prompt de test --> ");
 	r = read(STDIN_FILENO, buf, 1023);
 	buf[1023] = '\0';
-	send(cs, buf, ft_strlen(buf), 0);
+
+	init_connection(cs);
+	send_data(cs, buf, ft_strlen(buf));
+	done_connection(cs);
 	return(r);
 }

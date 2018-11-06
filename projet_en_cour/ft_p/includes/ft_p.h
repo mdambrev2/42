@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/11 13:05:41 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/05 20:16:03 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/06 21:47:18 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,20 +23,17 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-
 // Server
 int     create_server(int port);
-char    *read_client(int *cs);
 pid_t   start_multiple_connection(int sock, int *cs, int *n_client);
 int     put_new_connection(void);
 void    put_connection_lost(int client_number);
 int     client_reply(int cs, char *str, int n_client);
-
+int     client_contact(int cs, int n_client);
 // Client
 
 int	    write_server_sock(int cs);
 int     get_server_connection(char *addr, int port);
-int     put_client_connection(void);
+int     put_client_connection(int cs);
 int     receive_server_instruction(int sock);
-
 #endif

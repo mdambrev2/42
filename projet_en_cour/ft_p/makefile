@@ -6,7 +6,7 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/11/05 20:08:11 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/11/06 18:25:15 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ LIBFT	=	ft_strlen.c\
 			ft_putchar_fd.c\
 			ft_putstr_fd.c\
 			get_occu_by_delim.c\
+			data_serv.c\
 		
 OBJ_DIR = ./obj
 SRC_SERVER_DIR = ./srcs/server

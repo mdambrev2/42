@@ -6,17 +6,22 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:09:55 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/29 21:27:15 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/06 21:55:53 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_p.h>
 
-int		put_client_connection(void)
+int		put_client_connection(int cs)
 {
-	static int x = 0;
-
-	x++;
-	printf("Client Number %d : Connected\n", x);
-	return(x);
+	t_message   msg;
+	char        *buf;
+	
+	msg.messagetype = 0;
+	while(receive(cs, &msg) == 1)
+	{
+		buf = read_data(cs, msg);
+		printf("Client Number %s : Connected\n", buf);
+	}
+	return(0);
 }

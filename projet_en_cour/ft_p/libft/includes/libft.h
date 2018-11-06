@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/08 23:03:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/05 17:50:51 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/06 20:22:08 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+
+#define INIT 2
+#define	DATA 3
+#define DONE 4
+
 
 typedef struct		s_list
 {
@@ -28,6 +35,18 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct	s_message 
+{
+	int			messagetype;
+	int			len;
+}				t_message;
+
+char				*read_data(int cs, t_message msg);
+int					receive(int cs, t_message *msg);
+void                init_connection(int cs);
+void				done_connection(int cs);
+void				send_data(int cs, void *buf, int len);
+void				done_connection(int cs);
 char				*if_exist_in_tab(char **tab, char *str);
 int					secure_folder(char *racine, char *str, char *occu, int *x);
 int					secure_cmd(char *cmd);

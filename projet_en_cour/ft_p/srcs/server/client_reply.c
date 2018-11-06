@@ -6,34 +6,23 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 17:40:06 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/05 23:10:41 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/06 20:56:17 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
-void	write_to_client(int cs, char *str)
-{
-	write(cs, str, ft_strlen(str));
-}
-
 void	put_client_cmd(int cs, char *cmd, int n_client)
 {
-	char eof;
-
-	eof = EOF;
 
 	printf("Good Client %d : Is a cmd %s\n",n_client , cmd);
-	write_to_client(cs, "GOOD\n");
+	send_data(cs, "GOOD CMD", 10);
 }
 
 void	put_client_error(int cs, char *str, int n_client)
 {
-		char eof;
-
-		eof = EOF;
-		printf("Error Client %d : %s is not a server command\n", n_client, str);
-		write_to_client(cs, "\nServer Command List :\n-ls ...\n-pwd ...\n-set ...\n");
+		printf("Error Client %d : \"%s\" is not a server command\n", n_client, str);
+		send_data(cs, "BAD CMD", 9);
 }
 
 int		client_reply(int cs, char *str, int n_client)
@@ -49,9 +38,11 @@ int		client_reply(int cs, char *str, int n_client)
 		return(0);
 	cmd_tab = ft_strsplit("ls mkdir pwd cd rm get set", ' ');
 	cmd_dup = dup_occu_by_delim(str, ' ', 0);
+	init_connection(cs);
 	if((cmd = if_exist_in_tab(cmd_tab , cmd_dup)) != NULL)
 		put_client_cmd(cs, cmd, n_client);
 	else
-		put_client_error(cs, cmd, n_client);
+		put_client_error(cs, str, n_client);
+	done_connection(cs);
 	return(0);	
 }
