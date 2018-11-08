@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 16:45:56 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/29 16:12:09 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/08 21:39:08 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ int		*secure_files(char *racine, char *str, char *occu, int *x)
 {
 	char *path;
 	char *pwd;
-	char *tmp;
 	
 	str = raise_file_path(str);
 	path = get_absolute_path_ls(str, &pwd);
@@ -43,12 +42,10 @@ int		*secure_files(char *racine, char *str, char *occu, int *x)
 	return(0);
 }
 
-int	secure_cmd(char *cmd)
+int	secure_cmd(char *cmd, char *racine_serv)
 {
 	char *str;
-	char racine_serv[1024] = "/Users/mdambrev/42/projet_en_cour/libft";
 	int		x;
-	int test;
 	char *occu;
 
 	x = 0;

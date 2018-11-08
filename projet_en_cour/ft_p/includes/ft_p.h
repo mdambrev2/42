@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/11 13:05:41 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/06 21:47:18 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/08 21:24:09 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ int     create_server(int port);
 pid_t   start_multiple_connection(int sock, int *cs, int *n_client);
 int     put_new_connection(void);
 void    put_connection_lost(int client_number);
-int     client_reply(int cs, char *str, int n_client);
+int     client_reply(int cs, char *str, int n_client,  char *racine_serv);
 int     client_contact(int cs, int n_client);
+void    put_client_builtins(int cs, char *cmd, int n_client, char *racine_serv);
 // Client
 
 int	    write_server_sock(int cs);

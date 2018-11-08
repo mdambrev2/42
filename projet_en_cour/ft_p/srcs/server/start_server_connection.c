@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:05:07 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/06 20:46:59 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/08 21:28:10 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,15 @@ int		client_contact(int cs, int n_client)
 	t_message 	msg;
 	char		*buf;
 	int			x;
+	char		racine_serv[1024];
 
 	msg.messagetype = 0;
+	getcwd(racine_serv, 1024);
 	while((x = receive(cs, &msg)) == 1)
 	{
 		if((buf = read_data(cs, msg)) == NULL)
 			return(-1);
-		client_reply(cs, buf, n_client);
+		client_reply(cs, buf, n_client, racine_serv);
 	}
 	if(x == -1)
 		return(-1);

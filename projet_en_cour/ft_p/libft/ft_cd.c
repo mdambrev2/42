@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/24 19:04:00 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/24 21:24:43 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/08 22:23:44 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char *get_absolute_path(const char *path, char **pwd)
 	return(tmp2);
 }
 
-int	test_path(const char *path, char *absolute_path, char *pwd)
+int	test_path(char *absolute_path, char *pwd)
 {
 	static char start[1024] = "\0";
 	static char *buf1;
@@ -87,7 +87,7 @@ int ft_cd(const char *path, int sec)
 	if(path[0] != '-' && path[1] != '\0')
 	{
 		if(sec == 1)
-			if((error = test_path(path, absolute_path, pwd)) < 0)
+			if((error = test_path(absolute_path, pwd)) < 0)
 				return(put_error(error));
 		printf("Sucess\n");
 		chdir(absolute_path);

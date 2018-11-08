@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 16:34:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/06 21:40:31 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/07 17:16:48 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int		main(int argc, char **argv)
 	sock = get_server_connection(argv[1], port);
 	put_client_connection(sock);
 	while(r > 0)
-	{
-		r = write_server_sock(sock);
+	{	
+		r = write_server_sock(sock);	
 		receive_server_instruction(sock);
 	}
 	close(sock);

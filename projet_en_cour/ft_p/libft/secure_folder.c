@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 18:05:15 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/26 18:08:49 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/08 21:27:35 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char *get_absolute_path_ls(const char *path, char **pwd)
 	return(tmp2);
 }
 
-int	test_path_ls(char *racine, char *str, char *line)
+int	test_path_ls(char *racine, char *line)
 {
 	static char *buf1;
 	int x;
@@ -80,7 +80,6 @@ int secure_folder(char *racine, char *str, char *occu, int *x)
 	char *path;
 	char *pwd;
 	int	 test;
-	int 	y;
 	
 	path = get_absolute_path_ls(str, &pwd);
 	test = 0;
@@ -88,13 +87,13 @@ int secure_folder(char *racine, char *str, char *occu, int *x)
 			*x = *x - 1;	
 	else if(chdir(path) >= 0)
 	{
-		if((test = test_path_ls(racine, str, occu)) == -1)
+		if((test = test_path_ls(racine, occu)) == -1)
 			*x = *x - 1;
 		chdir(pwd);
 	}
 	else if(chdir(str) >= 0)
 	{
-		if((test = test_path_ls(racine, str, occu)) == -1)
+		if((test = test_path_ls(racine, occu)) == -1)
 			*x = *x - 1;
 		chdir(pwd);
 	}

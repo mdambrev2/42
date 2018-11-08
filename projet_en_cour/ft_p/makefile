@@ -6,7 +6,7 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/11/06 18:25:15 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/11/08 21:58:52 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC_SERV 	= server_main.c\
 			  start_server_connection.c\
 			  put_server_info.c\
 			  client_reply.c\
+			  builtin_serv.c\
 
 SRC_CLIENT	= client_main.c\
 			  get_server_connection.c\
@@ -27,6 +28,7 @@ SRC_CLIENT	= client_main.c\
 			  receive_server_instruction.c\
 
 LIBFT	=	ft_strlen.c\
+			ft_strdel.c\
 			ft_putstr.c\
 			ft_putchar.c\
 			ft_bzero.c\
@@ -41,6 +43,7 @@ LIBFT	=	ft_strlen.c\
 			ft_strncmp.c\
 			ft_convert_base.c\
 			ft_convert_base_suite.c\
+			ft_cd.c\
 			circular_list.c\
 			if_exist_in_tab.c\
 			ft_strdup.c\
@@ -51,12 +54,18 @@ LIBFT	=	ft_strlen.c\
 			ft_strend.c\
 			ft_strnew.c\
 			ft_strsplit.c\
+			ft_strjoin.c\
 			ft_tolower.c\
 			ft_toupper.c\
 			ft_putchar_fd.c\
 			ft_putstr_fd.c\
 			get_occu_by_delim.c\
 			data_serv.c\
+			fork_execve.c\
+			get_next_line.c\
+			secure_cmd.c\
+			secure_folder.c\
+			get_str_end.c\
 		
 OBJ_DIR = ./obj
 SRC_SERVER_DIR = ./srcs/server

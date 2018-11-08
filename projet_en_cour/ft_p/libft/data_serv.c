@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:19:08 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/06 22:24:18 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/07 23:02:58 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,26 @@ char	*read_data(int cs, t_message msg)
 		buf[msg.len - 1] = '\0';
 	else
 		buf[msg.len] = '\0';
+	return(buf);
+}
+
+int		send_string(int cs, char *str)
+{
+	init_connection(cs);
+	send_data(cs, str, ft_strlen(str));
+	done_connection(cs);
+	return(0);
+}
+
+char 	*recv_string(int cs)
+{
+	t_message   msg;
+	char        *buf;
+
+	msg.messagetype = 0;
+	while(receive(cs, &msg) == 1)
+	{
+		buf = read_data(cs, msg);
+	}
 	return(buf);
 }
