@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 17:40:06 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/08 21:48:41 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/14 00:48:22 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,14 @@ void	put_client_error(int cs, char *str, int n_client)
 
 int 	is_builtins(char *cmd)
 {
-	char *cmp_tab[5];
+	char *cmp_tab[6];
 
 	cmp_tab[0] = "cd";
 	cmp_tab[1] = "get";
-	cmp_tab[2] = "set";
+	cmp_tab[2] = "put";
 	cmp_tab[3] = "pwd";
-	cmp_tab[4] = 0;
+	cmp_tab[4] = "quit";
+	cmp_tab[5] = 0;
 	if(if_exist_in_tab(cmp_tab , cmd) != NULL)
 		return(1);
 	else 
@@ -84,7 +85,7 @@ int		client_reply(int cs, char *str, int n_client, char *racine_serv)
 
 	if(str && str[0] != '\0')
 	{
-		cmd_tab = ft_strsplit("ls mkdir pwd cd rm get set", ' ');
+		cmd_tab = ft_strsplit("ls mkdir pwd cd rm get put quit", ' ');
 		ret = dup_occu_by_delim(str, ' ' ,0);
 		cmd = if_exist_in_tab(cmd_tab , ret);
 	}
@@ -97,6 +98,7 @@ int		client_reply(int cs, char *str, int n_client, char *racine_serv)
 		put_client_cmd(cs, str, n_client, racine_serv);
 	}
 	else if(is_builtins(ret) == 1)
-		put_client_builtins(cs, str, n_client, racine_serv);
+		if(put_client_builtins(cs, str, n_client, racine_serv) == -1)
+			return(-1);
 	return(0);	
 }

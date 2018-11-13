@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 16:45:56 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/08 21:39:08 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/09 18:21:44 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,5 @@ int	secure_cmd(char *cmd, char *racine_serv)
 			secure_files(racine_serv, str, occu, &x);
 		x++;
 	}
-	printf("%s\n", cmd);
 	return(0);
 }

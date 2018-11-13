@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 16:34:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/07 22:26:41 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/13 20:03:56 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	usage(char *str)
 {
 	printf("Usage: %s <port>\n", str);
-	exit(-1);
+	exit(0);
 }
 
 void	wait_child(void)
@@ -23,7 +23,7 @@ void	wait_child(void)
 	int				statu;
 	struct rusage	rusage;
 
-	wait4(0, &statu, 0, &rusage);
+	wait4(-1, &statu, 0, &rusage);
 }
 
 void	send_client_infos(int cs, int  n_client)
@@ -36,6 +36,18 @@ void	send_client_infos(int cs, int  n_client)
 	done_connection(cs);
 }
 
+char		*stock_cwd(int x)
+{
+	static char *str;
+
+	if(x == 0)
+	{
+		str = (char *)malloc(sizeof(char) * 1024);
+	    str = getcwd(str, 1024);
+	}
+	return(str);
+}
+
 int		main(int argc, char **argv)
 {
 	int sock;
@@ -46,14 +58,14 @@ int		main(int argc, char **argv)
 	if(argc != 2)
 		usage(argv[0]);
 	sock = create_server(ft_atoi(argv[1]));
-	pid = start_multiple_connection(sock, &cs, &n_client);
+	stock_cwd(0);
+	pid = start_multiple_connection(sock, &cs, &n_client, 0);
 	send_client_infos(cs, n_client);
 	while(client_contact(cs, n_client) != -1)
 		;
 	put_connection_lost(n_client);
-	wait_child();
 	close(cs);
-	if(pid > 0)
+	if(pid == 0)
 		close(sock);
 	return(0);
 }

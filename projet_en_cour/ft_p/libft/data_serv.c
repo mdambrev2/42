@@ -6,39 +6,46 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:19:08 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/07 23:02:58 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/13 23:20:59 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libft.h>
-
+#include <sys/types.h>
+#include <sys/socket.h>
 #include <stdio.h>
 
-void    init_connection(int cs)
+int    init_connection(int cs)
 {
 	t_message msg;
 
 	msg.messagetype = INIT;
-	send(cs, &msg, sizeof(struct s_message), 0);
+	if(send(cs, &msg, sizeof(struct s_message), 0) == -1)
+		return(-1);
+	return(0);
 }
 
-void    send_data(int cs, void *buf, int len)
+int    send_data(int cs, void *buf, int len)
 {
 	t_message msg;
 
 	msg.messagetype = DATA;
 	msg.len = len;
-	send(cs, &msg, sizeof(struct s_message), 0);
-	send(cs, buf, len, 0);
-
+	if(send(cs, &msg, sizeof(struct s_message), 0) == -1)
+		return(-1);
+	if(send(cs, buf, len, 0) == -1)
+		return(-1);
+	return(0);
 }
 
-void    done_connection(int cs)
+int    done_connection(int cs)
 {
 	t_message msg;
 
 	msg.messagetype = DONE;
-	send(cs, &msg, sizeof(struct s_message), 0);
+	if(send(cs, &msg, sizeof(struct s_message), 0) == -1)
+		return(-1);
+	return(0);
 }
 
 int             receive(int cs, t_message *msg)
@@ -83,9 +90,9 @@ char	*read_data(int cs, t_message msg)
 
 int		send_string(int cs, char *str)
 {
-	init_connection(cs);
-	send_data(cs, str, ft_strlen(str));
-	done_connection(cs);
+	if(init_connection(cs) == -1 || send_data(cs, str, ft_strlen(str)) == -1 ||
+			done_connection(cs) == -1)
+		return(-1);
 	return(0);
 }
 
@@ -96,8 +103,6 @@ char 	*recv_string(int cs)
 
 	msg.messagetype = 0;
 	while(receive(cs, &msg) == 1)
-	{
 		buf = read_data(cs, msg);
-	}
 	return(buf);
 }

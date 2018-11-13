@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 16:34:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/07 17:16:48 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/14 00:32:30 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int		main(int argc, char **argv)
 	int port;
 	int sock;
 	int r;
-	
+
 	if(argc != 3)
 		usage_client(argv[0]);
 	r = 1;
@@ -33,7 +33,8 @@ int		main(int argc, char **argv)
 	while(r > 0)
 	{	
 		r = write_server_sock(sock);	
-		receive_server_instruction(sock);
+		if(receive_server_instruction(sock) == -1)
+			break;
 	}
 	close(sock);
 	return(0);

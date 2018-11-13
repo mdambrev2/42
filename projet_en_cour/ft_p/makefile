@@ -6,7 +6,7 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/11/08 21:58:52 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/11/14 00:23:17 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,15 @@ SRC_SERV 	= server_main.c\
 			  put_server_info.c\
 			  client_reply.c\
 			  builtin_serv.c\
+			  put_file_server.c\
+			  get_file_server.c\
 
 SRC_CLIENT	= client_main.c\
 			  get_server_connection.c\
 			  put_client_info.c\
 			  receive_server_instruction.c\
+			  put_file_client.c\
+			  get_file_client.c\
 
 LIBFT	=	ft_strlen.c\
 			ft_strdel.c\
