@@ -6,12 +6,36 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 17:40:06 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/14 00:48:22 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/16 07:06:14 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
+int get_fork_stat(char *cmd)
+{
+	pid_t           pid;
+	int             status;
+	struct rusage   rusage;
+	char **cmd_tab;
+	char *bin_path;
+
+	cmd_tab = ft_strsplit(cmd, ' ');
+	bin_path = ft_strjoin("/bin/", cmd_tab[0]);
+	pid = fork();
+	if(pid > 0)
+	{
+		wait4(0, &status, 0, &rusage);
+		if(WIFEXITED(status))
+			if(WEXITSTATUS(status) == 1)
+			{
+				swap_to_error(1);
+			}
+	}
+	else
+		execv(bin_path, cmd_tab);
+	return(0);
+}
 
 void	put_client_cmd(int cs, char *cmd, int n_client, char *racine_serv)
 {
@@ -20,7 +44,7 @@ void	put_client_cmd(int cs, char *cmd, int n_client, char *racine_serv)
 	char c[2];
 	char *tmp;
 
-	printf("Sucess Client %d : \"%s\" Good server command\n", n_client, cmd);
+	printf("\n\033[1;32mSucess Client %d : \"%s\" Good server command\n\033[00m", n_client, cmd);
 	send_string(cs, "GOOD CMD\n");
 
 	tmp = ft_strdup(cmd);	
@@ -31,21 +55,20 @@ void	put_client_cmd(int cs, char *cmd, int n_client, char *racine_serv)
 	close(2);
 	pid2 = dup2(cs, 2);
 	write(2, "\n", 2);
-	secure_cmd(tmp, racine_serv);
-	get_fork(tmp);
+	if(secure_cmd(tmp, racine_serv) == -1)
+		swap_to_error(1);
+	get_fork_stat(tmp);
 	c[0] = EOF;
 	c[1] = '\n';
 	dup2(1, 40);
 
-
-	
-	
 	
 	close(1);
 	close(2);
 	pid2 = dup2(cs, 1);
-	secure_cmd(cmd, racine_serv);
-	get_fork(cmd);
+	if(secure_cmd(cmd, racine_serv) == -1)
+		printf("\n");
+	get_fork_stat(cmd);
 	c[0] = EOF;
 	c[1] = '\n';
 	write(1, c, 2);
@@ -57,7 +80,8 @@ void	put_client_cmd(int cs, char *cmd, int n_client, char *racine_serv)
 
 void	put_client_error(int cs, char *str, int n_client)
 {
-		printf("Error Client %d : \"%s\" is not a server command\n", n_client, str);
+		printf("\n\033[1;31mError Client %d : \"%s\" is not a server command\033[00m\n", n_client, str);
+		swap_to_error(1);
 		send_string(cs, "BAD CMD\n");
 }
 
@@ -89,16 +113,16 @@ int		client_reply(int cs, char *str, int n_client, char *racine_serv)
 		ret = dup_occu_by_delim(str, ' ' ,0);
 		cmd = if_exist_in_tab(cmd_tab , ret);
 	}
-	if(str == NULL || str[0] == '\0')
-		cmd = NULL;
-	if(cmd == NULL)	
+	if((str == NULL || str[0] == '\0') || cmd == NULL )
 		put_client_error(cs, str, n_client);
 	else if(is_builtins(ret) == 0)
 	{
 		put_client_cmd(cs, str, n_client, racine_serv);
 	}
 	else if(is_builtins(ret) == 1)
+	{
 		if(put_client_builtins(cs, str, n_client, racine_serv) == -1)
 			return(-1);
+	}
 	return(0);	
 }

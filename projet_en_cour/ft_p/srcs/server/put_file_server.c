@@ -6,25 +6,35 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 00:18:04 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/14 00:49:23 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/16 03:01:27 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
-int			put_file_server(int cs, char *racine_serv)
+
+int		put_file_server(int cs, char *cmd)
 {
-	char c[2];
+	char *buf;
+	char *file_name;
+	int			fd_file;
+	t_message   msg;
 
-	dup2(1, 40);
-	close(1);
-	dup2(cs, 1);
-
-	printf("Server put %d %s\n", cs, racine_serv);
-
-	c[0] = -1;
-	c[1] = '\n';
-	write(1, c, 2);
-	dup2(40, 1);
+	send_string(cs, cmd);
+	buf = recv_string(cs);
+	if(buf != NULL)
+	{
+		swap_to_error(1);
+		return(0);
+	}
+	file_name = recv_string(cs);
+	fd_file = open(file_name, O_TRUNC | O_RDWR | O_CREAT , S_IRWXU);
+	msg.messagetype = 0;
+	while(receive(cs, &msg) == 1)
+	{
+		buf = read_data2(cs, msg);
+		write(fd_file, buf, msg.len);
+	}
+	close(fd_file);
 	return(0);
 }

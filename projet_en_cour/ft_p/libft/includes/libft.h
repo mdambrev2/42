@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/08 23:03:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/13 22:51:01 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/16 05:50:04 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,16 @@ typedef struct	s_message
 	int			mode;
 	int			len;
 }				t_message;
+
+int					static_error(int x);
+int					send_all(int cs, char *str, int cpt);
+char				*recv_instruction(int sock);
+int					read_instruction(int sock);
 int					send_string(int cs, char *str);
 char				*recv_string(int cs);
 int					get_fork(char *cmd);
 char				*read_data(int cs, t_message msg);
+char                *read_data2(int cs, t_message msg);
 int					receive(int cs, t_message *msg);
 int	                init_connection(int cs);
 int					send_data(int cs, void *buf, int len);

@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 16:45:56 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/09 18:21:44 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/16 07:08:48 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*raise_file_path(char *path)
 	return(path);
 }
 
-int		*secure_files(char *racine, char *str, char *occu, int *x)
+int		secure_files(char *racine, char *str, char *occu, int *x)
 {
 	char *path;
 	char *pwd;
@@ -39,7 +39,7 @@ int		*secure_files(char *racine, char *str, char *occu, int *x)
 	str = raise_file_path(str);
 	path = get_absolute_path_ls(str, &pwd);
 	secure_folder(racine, str, occu, x);
-	return(0);
+	return(-1);
 }
 
 int	secure_cmd(char *cmd, char *racine_serv)
@@ -49,6 +49,7 @@ int	secure_cmd(char *cmd, char *racine_serv)
 	char *occu;
 
 	x = 0;
+	static_error(2);
 	while((str = dup_occu_by_delim(cmd, ' ', x)) != NULL)
 	{
 		if(str[0] == '~')
@@ -59,9 +60,11 @@ int	secure_cmd(char *cmd, char *racine_serv)
 			continue;
 		}
 		occu = get_occu_by_delim(cmd, ' ', x);
-		if(secure_folder(racine_serv, str, occu, &x) == 0)
+		if((secure_folder(racine_serv, str, occu, &x)) == 0)
+		{
 			secure_files(racine_serv, str, occu, &x);
+		}
 		x++;
 	}
-	return(0);
+	return(static_error(0));
 }

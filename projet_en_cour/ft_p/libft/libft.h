@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/08 23:03:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/08 20:28:48 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/16 05:50:04 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,27 @@ typedef struct	s_message
 	int			mode;
 	int			len;
 }				t_message;
+
+int					static_error(int x);
+int					send_all(int cs, char *str, int cpt);
+char				*recv_instruction(int sock);
+int					read_instruction(int sock);
 int					send_string(int cs, char *str);
 char				*recv_string(int cs);
 int					get_fork(char *cmd);
 char				*read_data(int cs, t_message msg);
+char                *read_data2(int cs, t_message msg);
 int					receive(int cs, t_message *msg);
-void                init_connection(int cs);
-void				done_connection(int cs);
-void				send_data(int cs, void *buf, int len);
-void				done_connection(int cs);
+int	                init_connection(int cs);
+int					send_data(int cs, void *buf, int len);
+int					done_connection(int cs);
 char				*if_exist_in_tab(char **tab, char *str);
 int					secure_folder(char *racine, char *str, char *occu, int *x);
 int					secure_cmd(char *cmd, char *racine_serv);
 char				*get_absolute_path_ls(const char *path, char **pwd);
 char				*get_str_end(char *str);
 char				*get_occu_by_delim(char *str, char delim, int n_occu);
-int					ft_cd(const char *path, int sec);
+int					ft_cd(const char *path, int sec, char *racine_serv);
 char				*ft_strcut(const char *s1, const char *s2);
 int                 put_fd_in_files(int fd, char *path_file);
 uint64_t			swap_uint64(uint64_t n);

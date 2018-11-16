@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:05:07 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/13 22:22:51 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/16 03:24:24 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int		create_server(int port)
 		exit(-1);
 	}
 	listen(sock, 42);
+	get_fork("mkdir -p R_server");
+	chdir("./R_server");
 	return(sock);
 }
 
@@ -47,7 +49,7 @@ pid_t	start_multiple_connection(int sock, int *cs, int *n_client, int x)
 	pid = fork();
 	if(pid == 0)
 		return(pid);
-	wait(NULL);
+	signal(SIGCHLD, SIG_IGN);
 	start_multiple_connection(sock, cs, n_client, pid);
 	return(x);
 }
@@ -56,17 +58,10 @@ int		client_contact(int cs, int n_client)
 {
 	t_message 	msg;
 	char		*buf;
-	int			x;
 
 	msg.messagetype = 0;
-	while((x = receive(cs, &msg)) == 1)
-	{
-		if((buf = read_data(cs, msg)) == NULL)
-			return(-1);
-		if(client_reply(cs, buf, n_client, stock_cwd(1)) == -1)
-			exit(0);
-	}
-	if(x == -1)
+	buf = recv_string(cs);
+	if(client_reply(cs, buf, n_client, stock_cwd(1)) == -1)
 		return(-1);
 	return(0);
 }

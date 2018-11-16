@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 16:34:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/13 20:03:56 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/16 05:32:59 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,11 @@ int		main(int argc, char **argv)
 	pid = start_multiple_connection(sock, &cs, &n_client, 0);
 	send_client_infos(cs, n_client);
 	while(client_contact(cs, n_client) != -1)
-		;
+	{
+		recv_string(cs);
+		send_string(cs, ft_itoa(swap_to_error(0)));
+		swap_to_error(2);
+	}
 	put_connection_lost(n_client);
 	close(cs);
 	if(pid == 0)

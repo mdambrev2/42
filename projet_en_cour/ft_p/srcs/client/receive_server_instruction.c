@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 20:08:35 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/14 00:44:45 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/16 07:21:10 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,35 +24,16 @@ char    *read_server(int cs, t_message msg)
 	return(buf);
 }
 
-
-int		read_instruction(int sock)
+void	put_server_message(int sock)
 {
-	char		*line;
+	char *buf;
 
-	while(get_next_line(sock, &line) == 1)
-	{
-		if(line[0] == EOF)
-			break;
-		if(line[0] == -2)
-			return(-1);
-		printf("%s\n", line);
-	}
-	return(0);
+	buf = recv_string(sock);
+	if(buf[0] == '1')
+		printf("\033[1;31m[Server return : Error]\033[00m\n\n");
+	else
+		printf("\033[1;32m[Server return : Sucess]\033[00m\n\n");
 }
-
-
-char 			*recv_instruction(int sock)
-{
-	t_message   msg;
-	char        *buf;
-
-	msg.messagetype = 0;
-	while(receive(sock, &msg) == 1)
-		buf = read_data(sock, msg);
-	return(buf);
-}
-
-
 
 int		receive_server_instruction(int sock)
 {
@@ -60,14 +41,19 @@ int		receive_server_instruction(int sock)
 
 	str = recv_instruction(sock);
 	if(str == NULL)
+	{
+		send_string(sock, "tempo");
+		put_server_message(sock);
 		return(-1);
+	}
 	if(ft_strcmp(str, "GOOD CMD") == 0)
 	{
 		read_instruction(sock);
+		printf("\n");
 	}
 	else if(ft_strcmp(str, "BAD CMD") == 0)
 	{
-		printf("BAD CMD\n");
+		printf("\n\033[1;33mServer -- command not found\033[00m\n\n");
 	}
 	else if(ft_strcmp(str, "GOOD BUILTINS") == 0)
 	{
@@ -86,5 +72,7 @@ int		receive_server_instruction(int sock)
 	{
 		printf("error recieve server\n");
 	}
+	send_string(sock, "tempo");
+	put_server_message(sock);
 	return(0);
 }

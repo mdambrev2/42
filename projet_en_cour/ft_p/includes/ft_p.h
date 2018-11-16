@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/12/11 13:05:41 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/14 00:42:42 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/16 03:58:21 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <unistd.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <dirent.h>
 
 // Server
 int     create_server(int port);
@@ -33,8 +34,9 @@ int     client_contact(int cs, int n_client);
 int		put_client_builtins(int cs, char *cmd, int n_client, char *racine_serv);
 char	*stock_cwd(int x);
 void	wait_child(void);
-int     put_file_server(int cs, char *racine_serv);
+int     put_file_server(int cs, char *cmd);
 int     get_file_server(int cs, char *racine_serv);
+int     swap_to_error(int x);
 
 // Client
 
@@ -45,5 +47,6 @@ int     receive_server_instruction(int sock);
 int		read_instruction(int sock);
 int     put_file_client(int cs);
 int     get_file_client(int cs);
+char	*get_client_infos(int x, int ret, char *str);
 
 #endif

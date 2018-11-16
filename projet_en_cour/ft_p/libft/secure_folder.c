@@ -6,12 +6,23 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 18:05:15 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/09 18:21:47 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/16 06:08:59 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "libft.h"
+
+int static_error(int x)
+{
+	static int ret = 0;
+	
+	if(x == 1)
+		ret = -1;
+	if(x == 2)
+		ret = 0;
+	return(ret);
+}
 
 char *get_absolute_path_ls(const char *path, char **pwd)
 {
@@ -43,7 +54,8 @@ int	test_path_ls(char *racine, char *line)
 			line[x] = ' ';
 			x++;
 		}
-		printf("Server -- Permission Denied : %s \n", tmp);
+		static_error(1);
+		printf("\033[1;33mServer -- Permission Denied : %s \033[00m\n", tmp);
 		free(tmp);
 		return(-1);
 	}
@@ -68,7 +80,8 @@ int special_error(char *str, char *line)
 				line[x] = ' ';
 				x++;
 			}
-			printf("Server -- Permission Denied : %s \n", str);
+			static_error(1);
+			printf("\033[1;33mServer -- Permission Denied : %s \033[00m\n", str);
 			return(-1);
 		}
 	}
