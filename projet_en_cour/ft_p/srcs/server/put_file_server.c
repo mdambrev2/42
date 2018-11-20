@@ -6,12 +6,39 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 00:18:04 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/16 03:01:27 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/20 02:00:39 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_p.h"
 
+char *rase_path(char *str)
+{
+	int x;
+	char *ret;
+
+	ret = NULL;
+	x = 0;
+	while(str[x] != '\0')
+		x++;
+	while(str[x] != '/')
+		x--;
+	return(str + x + 1);
+}
+
+char		*name_nopath(char *str)
+{
+	int x;
+
+	x = 0;
+	while(str[x])
+	{
+		if(str[x] == '/')
+			return(rase_path(str));
+		x++;
+	}
+	return(str);
+}
 
 int		put_file_server(int cs, char *cmd)
 {
@@ -27,7 +54,7 @@ int		put_file_server(int cs, char *cmd)
 		swap_to_error(1);
 		return(0);
 	}
-	file_name = recv_string(cs);
+	file_name = ft_strdup(name_nopath(recv_string(cs)));
 	fd_file = open(file_name, O_TRUNC | O_RDWR | O_CREAT , S_IRWXU);
 	msg.messagetype = 0;
 	while(receive(cs, &msg) == 1)

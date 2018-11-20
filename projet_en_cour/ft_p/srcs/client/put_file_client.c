@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 00:03:37 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/16 07:22:10 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/20 01:38:12 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,26 @@
 int			check_args_put(int cs,char *cmd)
 {
 	int file;
-	char buf[30];
+	char buf[1024];
+	char *tmp;
+	char *tmp2;
 
-	if((file = open(get_occu_by_delim(cmd, ' ', 1),  O_RDONLY)) > 0)
+	if((file = open(get_occu_by_delim(cmd, ' ', 1), O_DIRECTORY | O_RDONLY)) > 0)
+	{
+		close(file);
+		tmp = ft_strjoin(get_occu_by_delim(cmd, ' ', 1)," Is a directory - usage: put < file > \n");
+		tmp2 = ft_strjoin("\n", tmp);
+		ft_strcpy(buf, tmp2);
+		send_string(cs, buf);
+	}
+	else if((file = open(get_occu_by_delim(cmd, ' ', 1),  O_RDONLY)) > 0)
 	{
 		close(file);
 		printf("\nSucess: Files \"%s\" Send  \n\n", get_occu_by_delim(cmd, ' ', 1));
 		send_string(cs, "\0");
 		return(0);
 	}
-	if(get_occu_by_delim(cmd, ' ', 1) == NULL)
+	else if(get_occu_by_delim(cmd, ' ', 1) == NULL)
 	{
 		ft_strcpy(buf, "\nMissing args - usage: put < file >\n"); 
 		send_string(cs, buf);

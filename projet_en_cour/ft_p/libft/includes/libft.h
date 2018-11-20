@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/08 23:03:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/16 05:50:04 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/20 00:37:09 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int					send_data(int cs, void *buf, int len);
 int					done_connection(int cs);
 char				*if_exist_in_tab(char **tab, char *str);
 int					secure_folder(char *racine, char *str, char *occu, int *x);
-int					secure_cmd(char *cmd, char *racine_serv);
+int					secure_cmd(char *cmd, char *racine_serv, int aff);
 char				*get_absolute_path_ls(const char *path, char **pwd);
 char				*get_str_end(char *str);
 char				*get_occu_by_delim(char *str, char delim, int n_occu);

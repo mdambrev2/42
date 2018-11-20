@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 20:08:35 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/16 07:21:10 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/19 20:28:17 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,7 @@ int		receive_server_instruction(int sock)
 	str = recv_instruction(sock);
 	if(str == NULL)
 	{
-		send_string(sock, "tempo");
-		put_server_message(sock);
+		printf("\n\033[1;31mServer : Offline\033[00m\n\n");
 		return(-1);
 	}
 	if(ft_strcmp(str, "GOOD CMD") == 0)

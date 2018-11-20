@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 18:05:15 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/16 06:08:59 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/20 00:47:26 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,18 @@
 int static_error(int x)
 {
 	static int ret = 0;
+	static int aff = 1;
 	
 	if(x == 1)
 		ret = -1;
 	if(x == 2)
 		ret = 0;
+	if(x == 3)
+		aff = 0;
+	if(x == 4)
+		return(aff);
+	if(x == 5)
+		aff = 1;
 	return(ret);
 }
 
@@ -55,7 +62,9 @@ int	test_path_ls(char *racine, char *line)
 			x++;
 		}
 		static_error(1);
-		printf("\033[1;33mServer -- Permission Denied : %s \033[00m\n", tmp);
+		if(static_error(4))
+			printf("\033[1;33mServer -- Permission Denied : %s \033[00m\n", tmp);
+		static_error(5);
 		free(tmp);
 		return(-1);
 	}
@@ -81,7 +90,8 @@ int special_error(char *str, char *line)
 				x++;
 			}
 			static_error(1);
-			printf("\033[1;33mServer -- Permission Denied : %s \033[00m\n", str);
+			if(static_error(4))
+				printf("\033[1;33mServer -- Permission Denied : %s \033[00m\n", str);
 			return(-1);
 		}
 	}

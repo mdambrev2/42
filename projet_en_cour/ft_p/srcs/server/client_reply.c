@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/05 17:40:06 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/16 07:06:14 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/20 00:39:06 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,13 @@ int get_fork_stat(char *cmd)
 	{
 		wait4(0, &status, 0, &rusage);
 		if(WIFEXITED(status))
-			if(WEXITSTATUS(status) == 1)
+			if((WEXITSTATUS(status) > 0 && ft_strcmp(cmd_tab[0], "ls") == 0)
+				|| (WEXITSTATUS(status) == 64 && (ft_strcmp(cmd_tab[0], "rm") == 0 
+						|| ft_strcmp(cmd_tab[0], "mkdir") == 0)))
 			{
 				swap_to_error(1);
 			}
+		printf("%d\n", WEXITSTATUS(status));
 	}
 	else
 		execv(bin_path, cmd_tab);
@@ -55,7 +58,7 @@ void	put_client_cmd(int cs, char *cmd, int n_client, char *racine_serv)
 	close(2);
 	pid2 = dup2(cs, 2);
 	write(2, "\n", 2);
-	if(secure_cmd(tmp, racine_serv) == -1)
+	if(secure_cmd(tmp, racine_serv, 1) == -1)
 		swap_to_error(1);
 	get_fork_stat(tmp);
 	c[0] = EOF;
@@ -66,7 +69,7 @@ void	put_client_cmd(int cs, char *cmd, int n_client, char *racine_serv)
 	close(1);
 	close(2);
 	pid2 = dup2(cs, 1);
-	if(secure_cmd(cmd, racine_serv) == -1)
+	if(secure_cmd(cmd, racine_serv, 1) == -1)
 		printf("\n");
 	get_fork_stat(cmd);
 	c[0] = EOF;

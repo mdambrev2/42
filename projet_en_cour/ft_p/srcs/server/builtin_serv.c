@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/08 19:28:19 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/16 07:08:07 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/20 00:39:40 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	cd_builtin(int cs, char *cmd, char *racine_serv)
 	
 	pid2 = dup2(cs, 1);
 	printf("\n");
-	if(secure_cmd(cmd, racine_serv) == -1)
+	if(secure_cmd(cmd, racine_serv, 1) == -1)
 	{
 		swap_to_error(1);
 		printf("\n");

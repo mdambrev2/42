@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 16:45:56 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/16 07:08:48 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/20 00:47:23 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,15 @@ int		secure_files(char *racine, char *str, char *occu, int *x)
 	return(-1);
 }
 
-int	secure_cmd(char *cmd, char *racine_serv)
+int	secure_cmd(char *cmd, char *racine_serv, int aff)
 {
 	char *str;
 	int		x;
 	char *occu;
 
 	x = 0;
+	if(aff == 0)
+		static_error(3);
 	static_error(2);
 	while((str = dup_occu_by_delim(cmd, ' ', x)) != NULL)
 	{
