@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 16:34:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/20 00:28:40 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/21 21:59:06 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int		main(int argc, char **argv)
 	int cs;
 	pid_t pid;
 	int	n_client;
+	char *buf;
 
 	if(argc != 2)
 		usage(argv[0]);
@@ -63,8 +64,11 @@ int		main(int argc, char **argv)
 	send_client_infos(cs, n_client);
 	while(client_contact(cs, n_client) != -1)
 	{
-		recv_string(cs);
-		send_string(cs, ft_itoa(swap_to_error(0)));
+		buf = recv_string(cs);
+		free(buf);
+		buf = ft_itoa(swap_to_error(0));
+		send_string(cs, buf);
+		free(buf);
 		swap_to_error(2);
 	}
 	put_connection_lost(n_client);

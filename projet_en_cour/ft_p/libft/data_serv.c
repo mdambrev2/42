@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/06 18:19:08 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/16 05:12:51 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/21 21:39:27 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int    init_connection(int cs)
 	t_message msg;
 
 	msg.messagetype = INIT;
+	msg.len = 0;
 	if(send(cs, &msg, sizeof(struct s_message), 0) == -1)
 		return(-1);
 	return(0);
@@ -44,6 +45,7 @@ int    done_connection(int cs)
 	t_message msg;
 
 	msg.messagetype = DONE;
+	msg.len = 0;
 	if(send(cs, &msg, sizeof(struct s_message), 0) == -1)
 		return(-1);
 	return(0);
@@ -77,10 +79,11 @@ int             receive(int cs, t_message *msg)
 char	*read_data(int cs, t_message msg)
 {
 	char *buf;
+	int test;
 
 	buf = ft_memalloc(msg.len);
 	ft_bzero(buf, msg.len);
-	if(recv(cs, buf, msg.len, 0) <= 0)
+	if((test = recv(cs, buf, msg.len, 0)) <= 0)
 		return(NULL);
 	if(buf[msg.len - 1] == '\n')
 		buf[msg.len - 1] = '\0';
@@ -92,7 +95,7 @@ char	*read_data(int cs, t_message msg)
 char	*read_data2(int cs, t_message msg)
 {
 	char *buf;
-
+	
 	buf = ft_memalloc(msg.len);
 	ft_bzero(buf, msg.len);
 	if(recv(cs, buf, msg.len, 0) <= 0)
@@ -127,6 +130,7 @@ char 	*recv_string(int cs)
 	char        *buf;
 
 	msg.messagetype = 0;
+	buf = NULL;
 	while(receive(cs, &msg) == 1)
 		buf = read_data(cs, msg);
 	return(buf);
@@ -135,7 +139,8 @@ char 	*recv_string(int cs)
 int		read_instruction(int sock)
 {
 	char		*line;
-
+	
+	line = NULL;
 	while(get_next_line(sock, &line) == 1)
 	{
 		if(line[0] == EOF)
@@ -154,6 +159,7 @@ char 			*recv_instruction(int sock)
 	char        *buf;
 
 	msg.messagetype = 0;
+	buf = NULL;
 	while(receive(sock, &msg) == 1)
 		buf = read_data(sock, msg);
 	return(buf);

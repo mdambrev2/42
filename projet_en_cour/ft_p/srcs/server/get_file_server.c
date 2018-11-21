@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 00:18:04 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/20 01:35:05 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/21 00:24:30 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,24 @@ int			check_args_get(int cs,char *cmd)
 	{
 		tmp = ft_strjoin("\nGet : Access Denied to \"" , get_occu_by_delim(cmd, ' ', 1));
 		tmp2 = ft_strjoin(tmp, "\"\n\n");
+		ft_strdel(&tmp);
 		send_string(cs, tmp2);
+		ft_strdel(&tmp2);
 	}
 	else if((file = open(get_occu_by_delim(cmd, ' ', 1), O_DIRECTORY | O_RDONLY)) > 0)
 	{
 		tmp = ft_strjoin(get_occu_by_delim(cmd, ' ', 1), ": Is a directory - usage: get < file >\n\n");
 		tmp2 = ft_strjoin("\n", tmp);
+		ft_strdel(&tmp);
 		close(file);
 		send_string(cs, tmp2);
+		ft_strdel(&tmp2);
 	}
 	else if((file = open(get_occu_by_delim(cmd, ' ', 1),  O_RDONLY)) > 0)
 	{
 		close(file);
 		send_string(cs, "\0");
+		ft_strdel(&tmp3);
 		return(0);
 	}
 	else if(get_occu_by_delim(cmd, ' ', 1) == NULL)
@@ -58,6 +63,7 @@ int			check_args_get(int cs,char *cmd)
 	else
 		send_string(cs, "\nNo such files - usage: get < file >\n\n");
 	swap_to_error(1);
+	ft_strdel(&tmp3);
 	return(-1);
 }	
 
@@ -79,6 +85,7 @@ int			get_file_server(int cs, char *cmd)
 		send_data(cs, buf, n_octet);
 		ft_bzero(buf, 1024);
 	}
+	ft_strdel(&buf);
 	done_connection(cs);
 	close(fd_file);
 	return(0);

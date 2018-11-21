@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 18:47:27 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/07 18:42:04 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/20 22:08:51 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,7 @@ int get_fork(char *cmd)
 		wait4(0, &status, 0, &rusage);
 	else
 		execv(bin_path, cmd_tab);
+	free_tab(cmd_tab);
+	ft_strdel(&bin_path);
 	return(0);
 }

@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/25 16:45:56 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/20 00:47:23 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/21 22:44:58 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,9 @@ int		secure_files(char *racine, char *str, char *occu, int *x)
 	
 	str = raise_file_path(str);
 	path = get_absolute_path_ls(str, &pwd);
-	secure_folder(racine, str, occu, x);
+	secure_folder(racine, str, occu, x);	
+	ft_strdel(&path);	
+	ft_strdel(&pwd);
 	return(-1);
 }
 
@@ -47,6 +49,7 @@ int	secure_cmd(char *cmd, char *racine_serv, int aff)
 	char *str;
 	int		x;
 	char *occu;
+	char *tmp;
 
 	x = 0;
 	if(aff == 0)
@@ -55,17 +58,21 @@ int	secure_cmd(char *cmd, char *racine_serv, int aff)
 	while((str = dup_occu_by_delim(cmd, ' ', x)) != NULL)
 	{
 		if(str[0] == '~')
+		{
+			tmp = str;
 			str = ft_strjoin("/Users/mdambrev", str + 1 );
+			ft_strdel(&tmp);
+		}
 		if(str[0] == '-')
 		{
 			x++;
+			ft_strdel(&str);
 			continue;
 		}
 		occu = get_occu_by_delim(cmd, ' ', x);
 		if((secure_folder(racine_serv, str, occu, &x)) == 0)
-		{
 			secure_files(racine_serv, str, occu, &x);
-		}
+		ft_strdel(&str);
 		x++;
 	}
 	return(static_error(0));

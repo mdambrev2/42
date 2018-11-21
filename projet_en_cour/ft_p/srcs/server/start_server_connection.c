@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 20:05:07 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/16 03:24:24 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/21 22:32:04 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ pid_t	start_multiple_connection(int sock, int *cs, int *n_client, int x)
 	struct sockaddr_in csin;
 	pid_t				pid;
 
+	cslen = 0;
 	*cs = accept(sock, (struct sockaddr*)&csin, &cslen);
 	*n_client = put_new_connection();
 	pid = fork();
@@ -61,7 +62,16 @@ int		client_contact(int cs, int n_client)
 
 	msg.messagetype = 0;
 	buf = recv_string(cs);
-	if(client_reply(cs, buf, n_client, stock_cwd(1)) == -1)
+	if(buf == NULL)
+	{
+		printf("\n\033[1;31mError Client %d : Signal received\n\033[00m", n_client);
 		return(-1);
+	}
+	if(client_reply(cs, buf, n_client, stock_cwd(1)) == -1)
+	{
+		ft_strdel(&buf);
+		return(-1);
+	}
+	ft_strdel(&buf);
 	return(0);
 }

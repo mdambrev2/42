@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/14 00:18:04 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/20 02:00:39 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/20 21:59:50 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,19 @@ int		put_file_server(int cs, char *cmd)
 	buf = recv_string(cs);
 	if(buf != NULL)
 	{
+		ft_strdel(&buf);
 		swap_to_error(1);
 		return(0);
 	}
 	file_name = ft_strdup(name_nopath(recv_string(cs)));
 	fd_file = open(file_name, O_TRUNC | O_RDWR | O_CREAT , S_IRWXU);
+	ft_strdel(&file_name);
 	msg.messagetype = 0;
 	while(receive(cs, &msg) == 1)
 	{
 		buf = read_data2(cs, msg);
 		write(fd_file, buf, msg.len);
+		ft_strdel(&buf);
 	}
 	close(fd_file);
 	return(0);

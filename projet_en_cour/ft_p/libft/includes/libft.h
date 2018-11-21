@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/08 23:03:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/20 00:37:09 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/21 20:28:32 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ typedef struct		s_list
 typedef struct	s_message 
 {
 	int			messagetype;
-	int			mode;
 	int			len;
 }				t_message;
 
 int					static_error(int x);
+void				free_tab(char **tab);
 int					send_all(int cs, char *str, int cpt);
 char				*recv_instruction(int sock);
 int					read_instruction(int sock);

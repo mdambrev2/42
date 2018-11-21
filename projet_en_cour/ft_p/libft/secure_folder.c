@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/26 18:05:15 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/20 00:47:26 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/21 23:01:46 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,13 @@ char *get_absolute_path_ls(const char *path, char **pwd)
 	*pwd = getcwd(*pwd, 1024);
 	tmp = ft_strjoin(*pwd, "/");
 	tmp2 = ft_strjoin(tmp, path);
-	free(tmp);
+	ft_strdel(&tmp);
 	return(tmp2);
 }
 
 int	test_path_ls(char *racine, char *line)
 {
-	static char *buf1;
+	char *buf1;
 	int x;
 	char *tmp;
 
@@ -65,9 +65,12 @@ int	test_path_ls(char *racine, char *line)
 		if(static_error(4))
 			printf("\033[1;33mServer -- Permission Denied : %s \033[00m\n", tmp);
 		static_error(5);
-		free(tmp);
+		ft_strdel(&tmp);
+		ft_strdel(&buf1);
 		return(-1);
 	}
+	ft_strdel(&tmp);
+	ft_strdel(&buf1);
 	return(1);
 }
 
@@ -120,5 +123,7 @@ int secure_folder(char *racine, char *str, char *occu, int *x)
 			*x = *x - 1;
 		chdir(pwd);
 	}
+	ft_strdel(&pwd);
+	ft_strdel(&path);
 	return(test);
 }

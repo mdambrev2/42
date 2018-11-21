@@ -6,11 +6,11 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/11/16 00:02:42 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/11/21 01:09:52 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FLAGS 	= -Wall -Werror -Wextra 
+FLAGS 	= -Wall -Werror -Wextra -g 
 
 NAME1 	= server\
 

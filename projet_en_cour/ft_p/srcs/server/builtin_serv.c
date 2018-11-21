@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/08 19:28:19 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/20 00:39:40 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/21 21:49:01 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	cd_builtin(int cs, char *cmd, char *racine_serv)
 		str = ft_strdup(racine_serv);
 	if(ft_cd(str, 1, racine_serv) == -1)
 		swap_to_error(1);
+	if(ft_strcmp(str, racine_serv) == 0)
+		free(str);
 	printf("\n");
 	c[0] = EOF;
 	c[1] = '\n';
@@ -61,6 +63,7 @@ void	pwd_builtin(int cs, char *racine_serv)
 		printf("\nWorking Directory : /\n\n");
 	else
 		printf("\nWorking Directory : %s\n\n", str + x);
+	free(str);
 	c[0] = EOF;
 	c[1] = '\n';
 	write(1, c, 2);
@@ -90,14 +93,16 @@ int	   put_client_builtins(int cs, char *cmd, int n_client,  char *racine_serv)
 	char *str;
 
 	str = dup_occu_by_delim(cmd, ' ', 0);
-	printf("\n\033[1;32mSucess Client %d : \"%s\" Good server command\033[00m\n", n_client, cmd);
+	printf("\n\033[1;32mSucess Client %d : Execute  \"%s\"\033[00m\n", n_client, cmd);
 	if(ft_strcmp(str, "put") == 0)
 	{
+		free(str);
 		send_string(cs, "PUT\n");
 		return(put_file_server(cs, cmd));
 	}
 	if(ft_strcmp(str, "get") == 0)
 	{
+		free(str);
 		send_string(cs, "GET\n");
 		return(get_file_server(cs, cmd));
 	}
@@ -107,6 +112,10 @@ int	   put_client_builtins(int cs, char *cmd, int n_client,  char *racine_serv)
 	if(ft_strcmp(str, "pwd") == 0)
 		pwd_builtin(cs, racine_serv);
 	if(ft_strcmp(str, "quit") == 0)
+	{
+		free(str);
 		return(quit_builtin(cs));
+	}
+	free(str);
 	return(0);
 }
