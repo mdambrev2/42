@@ -6,12 +6,11 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/17 03:51:59 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/21 20:12:30 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/23 07:38:06 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
 
 void	ft_strdel(char **as)
 {
@@ -22,13 +21,12 @@ void	ft_strdel(char **as)
 	}
 }
 
-
 void	free_tab(char **tab)
 {
 	int x;
 
 	x = 0;
-	while(tab[x])
+	while (tab[x])
 	{
 		ft_strdel(&tab[x]);
 		x++;

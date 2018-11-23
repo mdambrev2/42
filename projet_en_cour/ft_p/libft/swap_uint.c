@@ -6,13 +6,13 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/19 18:29:14 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/19 18:33:57 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/23 07:35:22 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-uint32_t                            swap_uint32(uint32_t val)
+uint32_t							swap_uint32(uint32_t val)
 {
 	val = ((val << 8) & 0xFF00FF00) | ((val >> 8) & 0xFF00FF);
 	return (val << 16) | (val >> 16);

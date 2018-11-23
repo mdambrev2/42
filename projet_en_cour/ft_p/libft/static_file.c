@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   if_exist_in_tab.c                                  :+:      :+:    :+:   */
+/*   static_file.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/19 18:36:25 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/23 07:37:09 by mdambrev         ###   ########.fr       */
+/*   Created: 2018/11/23 07:13:29 by mdambrev          #+#    #+#             */
+/*   Updated: 2018/11/23 07:36:10 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "stdio.h"
-
-char		*if_exist_in_tab(char **tab, char *str)
+int				static_error(int x)
 {
-	int		x;
+	static int	ret = 0;
+	static int	aff = 1;
 
-	x = 0;
-	if (str == NULL)
-		return (NULL);
-	while (tab[x] != 0)
-	{
-		if (ft_strcmp(tab[x], str) == 0)
-			return (ft_strdup(tab[x]));
-		x++;
-	}
-	return (NULL);
+	if (x == 1)
+		ret = -1;
+	if (x == 2)
+		ret = 0;
+	if (x == 3)
+		aff = 0;
+	if (x == 4)
+		return (aff);
+	if (x == 5)
+		aff = 1;
+	return (ret);
 }

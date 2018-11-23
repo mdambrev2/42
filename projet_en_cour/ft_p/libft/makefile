@@ -6,17 +6,20 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/11/07 18:35:47 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/11/23 07:13:53 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = libft.a
 GWW = GCC -Wall -Wextra -Werror
 INC_LIB = ./includes/
 SRC =		./ft_atoi.c \
+				./static_file.c \
+				./data_send.c \
 				./fork_execve.c \
-				./data_serv.c \
+				./data_receive.c \
 				./get_str_end.c \
 				./ft_cd.c \
+				./ft_cd_2.c \
 				./ft_strcut.c \
 				./ft_put_files_in_fd.c \
 				./get_next_line.c \
@@ -102,6 +105,8 @@ SRC =		./ft_atoi.c \
 				./ft_putwchar.c \
 				./circular_list_add_inblock.c \
 				./swap_uint.c \
+				./secure_cmd.c \
+				./secure_folder.c \
 				./if_exist_in_tab.c \
 				./get_occu_by_delim.c \
 
@@ -110,7 +115,7 @@ OBJ = $(SRC:.c=.o)
 all: $(NAME) 
 
 $(NAME): 
-	@gcc -c $(SRC) -I $(INC_LIB)
+	@gcc -Wall -Werror -Wextra -c $(SRC) -I $(INC_LIB)
 	@ar rc $(NAME) $(OBJ)
 	@ranlib $(NAME) 
 

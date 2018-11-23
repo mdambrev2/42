@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/23 17:54:08 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/03/26 17:01:54 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/23 06:57:31 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static int			wcmpbit(wchar_t *s, unsigned int start, size_t len)
 	while (start < len)
 	{
 		x = x + ft_weight_char(s[start]);
-		if (x > len)
+		if ((size_t)x > len)
 			break ;
 		start++;
 		ret++;

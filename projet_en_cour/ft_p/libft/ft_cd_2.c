@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   if_exist_in_tab.c                                  :+:      :+:    :+:   */
+/*   ft_cd_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/19 18:36:25 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/23 07:37:09 by mdambrev         ###   ########.fr       */
+/*   Created: 2018/11/23 06:46:18 by mdambrev          #+#    #+#             */
+/*   Updated: 2018/11/23 06:52:49 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include "stdio.h"
+#include <unistd.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include "includes/libft.h"
 
-char		*if_exist_in_tab(char **tab, char *str)
+int	put_error(int error, char **pwd, char **absolute_path)
 {
-	int		x;
-
-	x = 0;
-	if (str == NULL)
-		return (NULL);
-	while (tab[x] != 0)
-	{
-		if (ft_strcmp(tab[x], str) == 0)
-			return (ft_strdup(tab[x]));
-		x++;
-	}
-	return (NULL);
+	if (error == -1)
+		printf("Out Of Range\n");
+	if (error == -2)
+		printf("No such Directory\n");
+	if (error == -3)
+		printf("Unknown option\n");
+	ft_strdel(pwd);
+	ft_strdel(absolute_path);
+	return (-1);
 }

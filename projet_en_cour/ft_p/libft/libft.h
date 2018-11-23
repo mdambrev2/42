@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/08 23:03:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/20 00:37:09 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/23 07:43:24 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,14 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include "get_next_line.h"
-
-#define INIT 2
-#define	DATA 3
-#define DONE 4
-#define RECV 1
-#define READ 2
+# include <sys/types.h>
+# include <sys/socket.h>
+# include "get_next_line.h"
+# define INIT 2
+# define DATA 3
+# define DONE 4
+# define RECV 1
+# define READ 2
 
 typedef struct		s_list
 {
@@ -37,24 +36,24 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
-typedef struct	s_message 
+typedef struct		s_message
 {
-	int			messagetype;
-	int			mode;
-	int			len;
-}				t_message;
+	int				messagetype;
+	int				len;
+}					t_message;
 
+int					raise_end_space(char *str);
 int					static_error(int x);
+void				free_tab(char **tab);
 int					send_all(int cs, char *str, int cpt);
-char				*recv_instruction(int sock);
 int					read_instruction(int sock);
 int					send_string(int cs, char *str);
 char				*recv_string(int cs);
 int					get_fork(char *cmd);
 char				*read_data(int cs, t_message msg);
-char                *read_data2(int cs, t_message msg);
+char				*read_data2(int cs, t_message msg);
 int					receive(int cs, t_message *msg);
-int	                init_connection(int cs);
+int					init_connection(int cs);
 int					send_data(int cs, void *buf, int len);
 int					done_connection(int cs);
 char				*if_exist_in_tab(char **tab, char *str);
@@ -65,7 +64,7 @@ char				*get_str_end(char *str);
 char				*get_occu_by_delim(char *str, char delim, int n_occu);
 int					ft_cd(const char *path, int sec, char *racine_serv);
 char				*ft_strcut(const char *s1, const char *s2);
-int                 put_fd_in_files(int fd, char *path_file);
+int					put_fd_in_files(int fd, char *path_file);
 uint64_t			swap_uint64(uint64_t n);
 uint32_t			swap_uint32(uint32_t val);
 char				*ft_strend(char *str);
@@ -156,5 +155,6 @@ int					ft_tolower(int c);
 int					ft_toupper(int c);
 int					ft_nbrlen(int x);
 char				*dup_occu_by_delim(char *str, char delim, int n_occu);
+int					put_error(int error, char **pwd, char **absolute_path);
 
 #endif

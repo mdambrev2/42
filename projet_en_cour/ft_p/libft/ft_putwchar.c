@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/20 12:33:22 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/03/26 19:05:03 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/23 06:58:34 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void			write_4octetbis(unsigned char r1, unsigned char r2,
 	write(1, &r1, 1);
 }
 
-static void			write_4octet(wchar_t c, int aff)
+static void			write_4octet(wchar_t c)
 {
 	unsigned char	r1;
 	unsigned char	r2;
@@ -124,7 +124,7 @@ int					ft_putwchar(wchar_t c, int aff)
 	else
 	{
 		if (aff)
-			write_4octet(c, aff);
+			write_4octet(c);
 		x = 4;
 	}
 	return (x);

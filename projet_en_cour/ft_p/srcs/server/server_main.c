@@ -6,19 +6,19 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/29 16:34:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/21 21:59:06 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/23 06:10:51 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <ft_p.h>
 
-void	usage(char *str)
+void				usage(char *str)
 {
 	printf("Usage: %s <port>\n", str);
 	exit(0);
 }
 
-void	wait_child(void)
+void				wait_child(void)
 {
 	int				statu;
 	struct rusage	rusage;
@@ -26,54 +26,54 @@ void	wait_child(void)
 	wait4(-1, &statu, 0, &rusage);
 }
 
-void	send_client_infos(int cs, int  n_client)
+void				send_client_infos(int cs, int n_client)
 {
-	char *str;
+	char			*str;
 
 	str = ft_itoa(n_client);
 	init_connection(cs);
 	send_data(cs, str, ft_strlen(str));
 	done_connection(cs);
+	ft_strdel(&str);
 }
 
-char		*stock_cwd(int x)
+char				*stock_cwd(int x)
 {
-	static char *str;
+	static char		*str;
 
-	if(x == 0)
+	if (x == 0)
 	{
 		str = (char *)malloc(sizeof(char) * 1024);
-	    str = getcwd(str, 1024);
+		str = getcwd(str, 1024);
 	}
-	return(str);
+	return (str);
 }
 
-int		main(int argc, char **argv)
+int					main(int argc, char **argv)
 {
-	int sock;
-	int cs;
-	pid_t pid;
-	int	n_client;
-	char *buf;
+	int				sock;
+	int				cs;
+	pid_t			pid;
+	int				n_client;
+	char			*buf;
 
-	if(argc != 2)
+	if (argc != 2)
 		usage(argv[0]);
 	sock = create_server(ft_atoi(argv[1]));
 	stock_cwd(0);
 	pid = start_multiple_connection(sock, &cs, &n_client, 0);
 	send_client_infos(cs, n_client);
-	while(client_contact(cs, n_client) != -1)
+	while (client_contact(cs, n_client) != -1)
 	{
 		buf = recv_string(cs);
-		free(buf);
+		ft_strdel(&buf);
 		buf = ft_itoa(swap_to_error(0));
 		send_string(cs, buf);
-		free(buf);
+		ft_strdel(&buf);
 		swap_to_error(2);
 	}
-	put_connection_lost(n_client);
-	close(cs);
-	if(pid == 0)
+	put_connection_lost(n_client, cs);
+	if (pid == 0)
 		close(sock);
-	return(0);
+	return (0);
 }

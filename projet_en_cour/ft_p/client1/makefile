@@ -6,11 +6,11 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/11/16 00:02:42 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/11/23 07:48:27 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-FLAGS 	= -Wall -Werror -Wextra 
+FLAGS 	= -Wall -Werror -Wextra -g 
 
 NAME1 	= server\
 
@@ -50,7 +50,9 @@ LIBFT	=	ft_strlen.c\
 			ft_convert_base.c\
 			ft_convert_base_suite.c\
 			ft_cd.c\
+			ft_cd_2.c\
 			circular_list.c\
+			static_file.c\
 			if_exist_in_tab.c\
 			ft_strdup.c\
 			ft_strndup.c\
@@ -66,12 +68,13 @@ LIBFT	=	ft_strlen.c\
 			ft_putchar_fd.c\
 			ft_putstr_fd.c\
 			get_occu_by_delim.c\
-			data_serv.c\
+			data_receive.c\
 			fork_execve.c\
 			get_next_line.c\
 			secure_cmd.c\
 			secure_folder.c\
 			get_str_end.c\
+			data_send.c\
 		
 OBJ_DIR = ./obj
 SRC_SERVER_DIR = ./srcs/server
@@ -113,6 +116,6 @@ clean :
 	@rm -rf $(OBJ_LIBFT_O) $(OBJ_SRC_O) ./obj
 
 fclean : clean
-	@rm -rf $(NAME) ./obj 
+	@rm -rf $(NAME1) $(NAME2) ./obj 
 
 re: fclean all
