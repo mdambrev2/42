@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 15:59:07 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/04 16:07:20 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/30 11:07:15 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,14 @@ t_circ							*get_sect_64(struct segment_command_64 *seg,
 	x = 0;
 	sector = sector->racine;
 	tmp = sector;
+	if ((!check_corrup(seg, NULL) || !check_corrup(sect->sectname, NULL))
+				&& put_corrupted_files("files"))
+		return (NULL);
 	while (x < if_ppc_swap(seg->nsects))
 	{
+		if ((!check_corrup(seg, NULL) || !check_corrup(sect->sectname, NULL))
+				&& put_corrupted_files("files") && free_sector(sector))
+			return (NULL);
 		tmp = addfin_circ_elem(tmp);
 		tmp->sector_name = ft_strdup(sect->sectname);
 		sect = (void*)sect + sizeof(struct section_64);
@@ -48,6 +54,11 @@ t_circ							*get_seg_64(void *ptr)
 	x_max = if_ppc_swap(header->ncmds);
 	while (x < x_max)
 	{
+		if (!check_corrup(lc, NULL))
+		{
+			put_corrupted_files("files");
+			return (NULL);
+		}
 		if (if_ppc_swap(lc->cmd) == LC_SEGMENT_64)
 			sector = get_sect_64((struct segment_command_64*)lc, sector);
 		lc = (void*)lc + if_ppc_swap(lc->cmdsize);
@@ -67,8 +78,14 @@ t_circ							*get_sect_32(struct segment_command *seg,
 	x = 0;
 	sector = sector->racine;
 	tmp = sector;
+	if ((!check_corrup(seg, NULL) || !check_corrup(sect->sectname, NULL))
+				&& put_corrupted_files("files"))
+		return (NULL);
 	while (x < if_ppc_swap(seg->nsects))
 	{
+		if ((!check_corrup(seg, NULL) || !check_corrup(sect->sectname, NULL))
+				&& put_corrupted_files("files") && free_sector(sector->racine))
+			return (NULL);
 		tmp = addfin_circ_elem(tmp);
 		tmp->sector_name = ft_strdup(sect->sectname);
 		sect = (void*)sect + sizeof(struct section);
@@ -93,6 +110,11 @@ t_circ							*get_seg_32(void *ptr)
 	x_max = if_ppc_swap(header->ncmds);
 	while (x < x_max)
 	{
+		if (!check_corrup(lc, NULL))
+		{
+			put_corrupted_files("files");
+			return (NULL);
+		}
 		if (if_ppc_swap(lc->cmd) == LC_SEGMENT)
 			sector = get_sect_32((struct segment_command*)lc, sector);
 		lc = (void*)lc + if_ppc_swap(lc->cmdsize);

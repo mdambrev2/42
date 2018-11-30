@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:31:49 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/08 07:57:36 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/30 11:26:45 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ uint64_t					swap_uint64(uint64_t n)
 	return ((n << 32) | (n >> 32));
 }
 
-void						set_data_list_64(t_circ *ret, int nsyms,
+int							set_data_list_64(t_circ *ret, int nsyms,
 								int symoff, int stroff)
 {
 	char					*stringtable;
@@ -43,12 +43,14 @@ void						set_data_list_64(t_circ *ret, int nsyms,
 			check1 = array[i].n_type & N_TYPE;
 			check2 = array[i].n_type & N_EXT;
 		}
-		set_info_list_order(ret, &array[i], stringtable, 64);
+		if (set_info_list_order(ret, &array[i], stringtable, 64) == -1)
+			return(-1);
 		i++;
 	}
+	return(0);
 }
 
-void						get_function_name_64(t_circ *ret, void *ptr)
+int							get_function_name_64(t_circ *ret, void *ptr)
 {
 	struct mach_header_64	*header;
 	struct load_command		*lc;
@@ -66,14 +68,15 @@ void						get_function_name_64(t_circ *ret, void *ptr)
 		if (if_ppc_swap(lc->cmd) == LC_SYMTAB)
 		{
 			sym = (struct symtab_command *)lc;
-			set_data_list_64(ret, if_ppc_swap(sym->nsyms),
-							if_ppc_swap(sym->symoff),
-							if_ppc_swap(sym->stroff));
+			if(set_data_list_64(ret, if_ppc_swap(sym->nsyms),
+				if_ppc_swap(sym->symoff), if_ppc_swap(sym->stroff)) == -1)
+				return(-1);
 		}
 		lc = (void*)lc + if_ppc_swap(lc->cmdsize);
 		x++;
 	}
 	ret = NULL;
+	return(0);
 }
 
 t_circ						*nm_x64_bin(void *ptr)
@@ -82,8 +85,16 @@ t_circ						*nm_x64_bin(void *ptr)
 
 	ret = create_circular_list();
 	ret->ptr = ptr;
-	ret->sector = (void*)get_seg_64(ptr);
-	get_function_name_64(ret, ptr);
+	if ((ret->sector = (void*)get_seg_64(ptr)) == NULL)
+	{
+		free_sector(ret);
+		return (NULL);
+	}
+	if(get_function_name_64(ret, ptr) == -1)
+	{
+		free_sector(ret);
+		return (NULL);
+	}
 	free_sector(ret->sector);
 	return (ret);
 }

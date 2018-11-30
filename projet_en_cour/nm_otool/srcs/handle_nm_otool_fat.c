@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/25 15:01:08 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/09/28 20:25:42 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/30 11:08:45 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,5 @@ void					unzip_fat_otool(void *ptr, void *name,
 		header_bin = (void*)header_bin + sizeof(struct fat_arch);
 		x++;
 	}
-	printf("\n");
+	ft_printf("\n");
 }

@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:31:49 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/08 08:12:59 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/30 11:08:13 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,17 @@ void							find__text(struct segment_command_64 *seg,
 	int							x;
 	struct section_64			*sec;
 
+	if ((!check_corrup(seg, NULL))
+			&& put_corrupted_files("files"))
+		return ;
 	cpt = if_ppc_swap(seg->nsects);
 	sec = (void*)seg + sizeof(struct segment_command_64);
 	x = 0;
 	while (x < cpt)
 	{
+		if ((!check_corrup(sec, NULL))
+				&& put_corrupted_files("files"))
+			return ;
 		if (ft_strcmp(sec->sectname, "__text") == 0)
 			print_data_text(sec, ptr, name, ar);
 		sec = (void*)sec + sizeof(struct section_64);
@@ -92,17 +98,18 @@ t_circ							*otool_x64_bin(void *ptr, char *name, int ar)
 	header = (struct mach_header_64 *)ptr;
 	n_cmd = if_ppc_swap(header->ncmds);
 	lc = ptr + sizeof(struct mach_header_64);
-	while (x < n_cmd)
+	while (x++ < n_cmd)
 	{
+		if ((!check_corrup(lc, NULL)) && put_corrupted_files("files"))
+			return (NULL);
 		if (if_ppc_swap(lc->cmd) == LC_SEGMENT_64)
 		{
 			seg = (struct segment_command_64*)lc;
 			find__text(seg, ptr, name, ar);
 		}
 		lc = (void *)lc + if_ppc_swap(lc->cmdsize);
-		x++;
 	}
 	if (ar == 3 && if_sector_empty_banners(0) != 1)
-		printf("\n");
+		ft_printf("\n");
 	return (NULL);
 }

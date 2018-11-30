@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 13:16:35 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/08 09:28:40 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/30 10:53:26 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_circ					*sort_by_desc_64(t_circ *ret, struct nlist_64 *array,
 	return (tmp);
 }
 
-void					set_info_list_order(t_circ *ret, void *array,
+int						set_info_list_order(t_circ *ret, void *array,
 											char *stringtable, int type)
 {
 	t_circ				*prev_elem;
@@ -70,6 +70,8 @@ void					set_info_list_order(t_circ *ret, void *array,
 	array32 = (struct nlist*)array;
 	array64 = (struct nlist_64*)array;
 	elem = NULL;
+	if (!check_corrup(stringtable + if_ppc_swap(array64->n_un.n_strx), NULL))
+		return (put_corrupted_files("Files"));
 	if (type == 64 && get_type_64(array, (t_circ*)ret->racine->sector) != '?'
 		&& ((char *)stringtable + if_ppc_swap(array64->n_un.n_strx))[0] != 0)
 	{
@@ -84,4 +86,5 @@ void					set_info_list_order(t_circ *ret, void *array,
 		elem = add_elem_inblock_up(prev_elem);
 		set_data_32(elem, array32, stringtable, type);
 	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 16:25:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/08 09:46:10 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/30 11:24:09 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int						nm(void *ptr, char *str, int ac, struct stat *buf)
 	{
 		if (ac != 2 && check_x32_x64_corrupt(ptr, buf, str, 1) == 1)
 			return (-1);
-		to_put = nm_x64_bin(ptr);
+		if ((to_put = nm_x64_bin(ptr)) == NULL)
+			return (-1);
 		put_list(to_put, str, ac);
 		return (0);
 	}
@@ -54,7 +55,8 @@ int						nm(void *ptr, char *str, int ac, struct stat *buf)
 	{
 		if (ac != 2 && check_x32_x64_corrupt(ptr, buf, str, 2) == 1)
 			return (-1);
-		to_put = nm_x32_bin(ptr);
+		if ((to_put = nm_x32_bin(ptr)) == NULL)
+			return (-1);
 		put_list(to_put, str, ac);
 		return (0);
 	}

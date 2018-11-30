@@ -6,11 +6,29 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/08 09:11:00 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/08 09:43:56 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/30 11:24:07 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <nm_otool.h>
+
+int						check_corrup(void *ptr1, void *ptr2)
+{
+	static void			*test1 = NULL;
+	static void			*test2 = NULL;
+
+	if (ptr2 != NULL)
+	{
+		test1 = ptr1;
+		test2 = ptr2;
+	}
+	else if (ptr2 == NULL)
+	{
+		if (ptr1 >= test1 && ptr1 <= test2)
+			return (1);
+	}
+	return (0);
+}
 
 int						map(char *str, int ac, int set)
 {
@@ -24,6 +42,7 @@ int						map(char *str, int ac, int set)
 	if (S_ISDIR(buf.st_mode) == 1)
 		return (put_buff_error(str));
 	ptr = mmap(0, buf.st_size, PROT_READ, MAP_PRIVATE, fd, 0);
+	check_corrup(ptr, ptr + buf.st_size);
 	if (set == 0 && ac <= 2)
 		fd = nm(ptr, str, 0, &buf);
 	else if (set == 0 && ac > 2)

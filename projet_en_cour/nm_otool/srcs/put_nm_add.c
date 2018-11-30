@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/15 15:24:14 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/08 10:43:40 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/30 11:16:15 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int					put_type_error(char *str)
 
 int					put_corrupted_files(char *str)
 {
-	ft_putstr_fd("/Applications/Xcode.app/Contents/Developer", 2);
+	ft_putstr_fd("\n/Applications/Xcode.app/Contents/Developer", 2);
 	ft_putstr_fd("/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm:", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": truncated or malformed object\n", 2);
@@ -59,7 +59,7 @@ int					put_corrupted_files(char *str)
 
 int					put_wrong_command_size(char *str)
 {
-	ft_putstr_fd("/Applications/Xcode.app/Contents/Developer", 2);
+	ft_putstr_fd("\n/Applications/Xcode.app/Contents/Developer", 2);
 	ft_putstr_fd("/Toolchains/XcodeDefault.xctoolchain/usr/bin/nm:", 2);
 	ft_putstr_fd(str, 2);
 	ft_putstr_fd(": truncated or malformed object", 2);

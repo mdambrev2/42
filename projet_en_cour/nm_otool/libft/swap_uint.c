@@ -1,42 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   no_leaks.c                                         :+:      :+:    :+:   */
+/*   swap_uint.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/27 13:46:38 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/30 10:31:19 by mdambrev         ###   ########.fr       */
+/*   Created: 2018/10/19 18:29:14 by mdambrev          #+#    #+#             */
+/*   Updated: 2018/11/30 10:42:19 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <nm_otool.h>
+#include "libft.h"
 
-int			free_sector(t_circ *sector)
+uint32_t							swap_uint32(uint32_t val)
 {
-	t_circ	*tmp;
-
-	if (sector == NULL)
-		return (1);
-	tmp = sector->racine->next;
-	while (tmp != tmp->racine && tmp)
-	{
-		ft_memdel((void*)&tmp->sector_name);
-		tmp = tmp->next;
-	}
-	free_circ(sector->racine);
-	return (1);
+	val = ((val << 8) & 0xFF00FF00) | ((val >> 8) & 0xFF00FF);
+	return (val << 16) | (val >> 16);
 }
 
-void		free_tab(char **tab)
+uint64_t							swap_uint64(uint64_t n)
 {
-	int x;
-
-	x = 0;
-	while (tab[x])
-	{
-		ft_memdel((void *)&tab[x]);
-		x++;
-	}
-	ft_memdel((void *)&tab);
+	n = ((n << 8) & 0xFF00FF00FF00FF00ULL) \
+		| ((n >> 8) & 0x00FF00FF00FF00FFULL);
+	n = ((n << 16) & 0xFFFF0000FFFF0000ULL) \
+		| ((n >> 16) & 0x0000FFFF0000FFFFULL);
+	return ((n << 32) | (n >> 32));
 }

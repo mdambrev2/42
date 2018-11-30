@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 18:44:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/08 11:10:31 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/30 10:43:19 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define AR_CIGAM 0x0a3e686372613c21
 # define DS_STORE 16777216
 
+int						check_corrup(void *ptr1, void *ptr2);
 void					test(void);
 char					**check_args(int ac, char **av);
 int						put_args_missing(char *str);
@@ -36,7 +37,7 @@ int						put_buff_error(char *str);
 int						put_type_error(char *str);
 t_circ					*nm_x64_bin(void *ptr);
 t_circ					*nm_x32_bin(void *ptr);
-void					set_info_list_order(t_circ *ret, void *array,
+int						set_info_list_order(t_circ *ret, void *array,
 											char *stringtable, int type);
 t_circ					*add_elem_inblock_up(t_circ *ret);
 void					set_data_64(t_circ *elem, struct nlist_64 *array,
@@ -66,7 +67,7 @@ int						check_ar_corrupt(void *ptr, struct stat *buf,
 											char *str);
 t_circ					*get_seg_64(void *ptr);
 t_circ					*get_seg_32(void *ptr);
-void					free_sector(t_circ *sector);
+int						free_sector(t_circ *sector);
 void					free_main_list(t_circ *ret);
 void					free_tab(char **tab);
 uint32_t				swap_uint32(uint32_t val);

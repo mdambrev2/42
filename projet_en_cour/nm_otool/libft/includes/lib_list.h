@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/05/17 00:01:14 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/05 19:50:52 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/10/19 18:26:30 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,4 +100,6 @@ int					nlist, int (*cmp)(int, int));
 void				add_lstr(t_clist **list, int n_mail, int pos_x, void *src);
 void				**list_to_tab(t_content *axx, int n_list,
 									int type, int n_content);
+t_circ				*add_elem_inblock_down(t_circ *ret);
+t_circ				*add_elem_inblock_up(t_circ *ret);
 #endif

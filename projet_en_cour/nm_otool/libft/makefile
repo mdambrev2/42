@@ -6,7 +6,7 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/10/08 10:57:13 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/10/19 18:31:50 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 NAME = libft.a
@@ -93,6 +93,8 @@ SRC =		./ft_atoi.c \
 				./ft_wstradd.c \
 				./ft_wstradd2.c \
 				./ft_putwchar.c \
+				./circular_list_add_inblock.c \
+				./swap_uint.c \
 
 OBJ = $(SRC:.c=.o)
 

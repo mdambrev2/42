@@ -6,7 +6,7 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/10/08 10:57:06 by mdambrev         ###   ########.fr        #
+#    Updated: 2018/11/30 11:28:33 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,6 +101,6 @@ clean :
 	@rm -rf $(OBJ_LIBFT_O) $(OBJ_SRC_O) ./obj
 
 fclean : clean
-	@rm -rf $(NAME) libft_malloc.so ./obj 
+	@rm -rf $(NAME1) $(NAME2) ./obj 
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/11 14:04:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/08 06:02:21 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/30 10:46:09 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int							check_size_corrupt_x32(void *ptr,
 	lc = ptr + sizeof(struct mach_header);
 	while (x < ncmd)
 	{
-		if (lc->cmdsize % 4 != 0)
+		if (!check_corrup(lc, NULL) || lc->cmdsize % 4 != 0)
 			return (2);
 		if (lc->cmd == LC_SEGMENT)
 			check = if_equal_x32(ptr, (struct segment_command *)lc, buf);
@@ -86,7 +86,7 @@ int							check_size_corrupt_x64(void *ptr,
 	lc = ptr + sizeof(struct mach_header_64);
 	while (x < ncmd)
 	{
-		if (lc->cmdsize % 4 != 0)
+		if (!check_corrup(lc, NULL) || lc->cmdsize % 4 != 0)
 			return (2);
 		if (lc->cmd == LC_SEGMENT_64)
 			check = if_equal_x64(ptr, (struct segment_command_64 *)lc, buf);
@@ -101,22 +101,10 @@ int							check_size_corrupt_x64(void *ptr,
 int							check_x32_x64_corrupt(void *ptr,
 								struct stat *buf, char *str, int x)
 {
-	if (x <= 2 && (check_size_corrupt_x64(ptr, buf, x) == 1
-			|| check_size_corrupt_x32(ptr, buf, x) == 1))
-	{
-		put_corrupted_files(str);
-		return (1);
-	}
 	if (x <= 2 && (check_size_corrupt_x64(ptr, buf, x) == 2
 			|| check_size_corrupt_x32(ptr, buf, x) == 2))
 	{
 		put_wrong_command_size(str);
-		return (1);
-	}
-	if (check_size_corrupt_x64(ptr, buf, x) == 1
-			|| check_size_corrupt_x32(ptr, buf, x) == 1)
-	{
-		put_corrupted_otool_files(str);
 		return (1);
 	}
 	if (check_size_corrupt_x64(ptr, buf, x) == 2

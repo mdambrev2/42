@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:31:49 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/08 08:03:15 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/11/30 10:34:09 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,19 @@ void								find_text_32(struct segment_command *seg,
 	int								x;
 	struct section					*sec;
 
+	if ((!check_corrup(seg, NULL))
+			&& put_corrupted_files("files"))
+		return ;
 	cpt = if_ppc_swap(seg->nsects);
 	sec = (void*)seg + sizeof(struct segment_command);
 	x = 0;
 	while (x < cpt)
 	{
+		if ((!check_corrup(sec, NULL))
+				&& put_corrupted_files("files"))
+			return ;
 		if (ft_strcmp(sec->sectname, "__text") == 0)
-		{
 			print_data_text_32(sec, ptr, name, ar);
-		}
 		sec = (void*)sec + sizeof(struct section);
 		x++;
 	}
@@ -113,6 +117,9 @@ t_circ								*otool_x32_bin(void *ptr,
 	lc = ptr + sizeof(struct mach_header);
 	while (x < n_cmd)
 	{
+		if ((!check_corrup(lc, NULL))
+				&& put_corrupted_files("files"))
+			return (NULL);
 		if (if_ppc_swap(lc->cmd) == LC_SEGMENT)
 		{
 			seg = (struct segment_command*)lc;
