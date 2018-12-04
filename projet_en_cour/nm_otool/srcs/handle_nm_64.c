@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:31:49 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/30 11:26:45 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/12/04 11:18:14 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,39 +44,39 @@ int							set_data_list_64(t_circ *ret, int nsyms,
 			check2 = array[i].n_type & N_EXT;
 		}
 		if (set_info_list_order(ret, &array[i], stringtable, 64) == -1)
-			return(-1);
+			return (-1);
 		i++;
 	}
-	return(0);
+	return (0);
 }
 
 int							get_function_name_64(t_circ *ret, void *ptr)
 {
 	struct mach_header_64	*header;
 	struct load_command		*lc;
-	int						n_cmd;
 	int						x;
 	struct symtab_command	*sym;
 
 	x = 0;
 	header = (struct mach_header_64 *)ptr;
-	n_cmd = if_ppc_swap(header->ncmds);
 	lc = ptr + sizeof(*header);
 	ret->racine->ptr = ptr;
-	while (x < n_cmd)
+	while (x < (int)if_ppc_swap(header->ncmds))
 	{
+		if (!check_corrup(lc, NULL))
+			return (put_corrupted_files("files"));
 		if (if_ppc_swap(lc->cmd) == LC_SYMTAB)
 		{
 			sym = (struct symtab_command *)lc;
-			if(set_data_list_64(ret, if_ppc_swap(sym->nsyms),
+			if (set_data_list_64(ret, if_ppc_swap(sym->nsyms),
 				if_ppc_swap(sym->symoff), if_ppc_swap(sym->stroff)) == -1)
-				return(-1);
+				return (-1);
 		}
 		lc = (void*)lc + if_ppc_swap(lc->cmdsize);
 		x++;
 	}
 	ret = NULL;
-	return(0);
+	return (0);
 }
 
 t_circ						*nm_x64_bin(void *ptr)
@@ -90,8 +90,9 @@ t_circ						*nm_x64_bin(void *ptr)
 		free_sector(ret);
 		return (NULL);
 	}
-	if(get_function_name_64(ret, ptr) == -1)
+	if (get_function_name_64(ret, ptr) == -1)
 	{
+		free_sector(ret->sector);
 		free_sector(ret);
 		return (NULL);
 	}

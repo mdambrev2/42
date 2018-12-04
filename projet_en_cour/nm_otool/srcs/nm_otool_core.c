@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/29 16:25:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/30 11:24:09 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/12/04 11:27:36 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int						nm(void *ptr, char *str, int ac, struct stat *buf)
 
 	magic_number = *(int *)ptr;
 	to_put = NULL;
+	get_name(1, str);
 	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
 	{
 		if (ac != 2 && check_x32_x64_corrupt(ptr, buf, str, 1) == 1)
@@ -86,6 +87,15 @@ int						otool_arch(void *ptr, char *str,
 	return (0);
 }
 
+char					*get_name(int x, char *str)
+{
+	static char *ret = NULL;
+
+	if (x == 1)
+		ret = str;
+	return (ret);
+}
+
 int						otool(void *ptr, char *str, int ac, struct stat *buf)
 {
 	unsigned int		magic_number;
@@ -93,6 +103,7 @@ int						otool(void *ptr, char *str, int ac, struct stat *buf)
 
 	magic_number = *(int *)ptr;
 	to_put = NULL;
+	get_name(1, str);
 	if (magic_number == MH_MAGIC_64 || magic_number == MH_CIGAM_64)
 	{
 		if (ac != 2 && ac != 3 && check_x32_x64_corrupt(ptr, buf, str, 3) == 1)

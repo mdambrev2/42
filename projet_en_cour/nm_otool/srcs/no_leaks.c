@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/27 13:46:38 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/30 10:31:19 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/12/04 10:27:21 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int			free_sector(t_circ *sector)
 	tmp = sector->racine->next;
 	while (tmp != tmp->racine && tmp)
 	{
+		ft_memdel((void*)&tmp->value);
+		ft_memdel((void*)&tmp->function_name);
 		ft_memdel((void*)&tmp->sector_name);
 		tmp = tmp->next;
 	}

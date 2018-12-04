@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/26 15:59:07 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/30 11:07:15 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/12/04 11:07:42 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_circ							*get_seg_64(void *ptr)
 		if (!check_corrup(lc, NULL))
 		{
 			put_corrupted_files("files");
+			free_sector(sector);
 			return (NULL);
 		}
 		if (if_ppc_swap(lc->cmd) == LC_SEGMENT_64)

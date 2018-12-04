@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 18:44:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/30 10:43:19 by mdambrev         ###   ########.fr       */
+/*   Updated: 2018/12/04 11:28:27 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define AR_CIGAM 0x0a3e686372613c21
 # define DS_STORE 16777216
 
+char					*get_name(int x, char *str);
 int						check_corrup(void *ptr1, void *ptr2);
 void					test(void);
 char					**check_args(int ac, char **av);
