@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/10/04 18:42:25 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/19 18:29:33 by mdambrev         ###   ########.fr       */
+/*   Updated: 2019/04/03 19:06:11 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int									static_banner_ppc(int modifier)
 		x = 32;
 	if (modifier == 64)
 		x = 64;
+	if (modifier == 128)
+		x = 128;
 	if (modifier == -1)
 		x = 0;
 	return (x);

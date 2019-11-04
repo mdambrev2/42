@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/26 18:44:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/12/04 11:28:27 by mdambrev         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:53:06 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@
 # define AR_CIGAM 0x0a3e686372613c21
 # define DS_STORE 16777216
 
+void					otool_put_name_norm(char *name, int ar);
+uint32_t				put_addres_otool_32(uint32_t addr);
+void					arm(uint64_t cpt, uint32_t *addr, char *str);
+uint64_t				put_addres_otool(uint64_t addr);
+void					set_ppc_type(char *name, void *ptr, int ac);
 char					*get_name(int x, char *str);
 int						check_corrup(void *ptr1, void *ptr2);
 void					test(void);

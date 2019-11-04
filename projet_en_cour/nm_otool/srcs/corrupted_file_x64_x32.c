@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/11 14:04:51 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/30 10:46:09 by mdambrev         ###   ########.fr       */
+/*   Updated: 2019/04/02 19:40:23 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int							if_equal_x32(void *ptr,
 	void					*seg_data_end;
 
 	data_end = ptr + buf->st_size;
-	seg_data_end = ptr + seg->fileoff + seg->filesize;
+	seg_data_end = ptr + if_ppc_swap(seg->fileoff) + if_ppc_swap(seg->filesize);
 	if (seg_data_end != data_end)
 		return (0);
 	return (1);
@@ -39,15 +39,15 @@ int							check_size_corrupt_x32(void *ptr,
 	if (y != 2 && y != 4)
 		return (0);
 	header = (struct mach_header *)ptr;
-	ncmd = header->ncmds;
+	ncmd = if_ppc_swap(header->ncmds);
 	lc = ptr + sizeof(struct mach_header);
 	while (x < ncmd)
 	{
-		if (!check_corrup(lc, NULL) || lc->cmdsize % 4 != 0)
+		if (!check_corrup(lc, NULL) || if_ppc_swap(lc->cmdsize) % 4 != 0)
 			return (2);
-		if (lc->cmd == LC_SEGMENT)
+		if (if_ppc_swap(lc->cmd) == LC_SEGMENT)
 			check = if_equal_x32(ptr, (struct segment_command *)lc, buf);
-		lc = (void *)lc + lc->cmdsize;
+		lc = (void *)lc + if_ppc_swap(lc->cmdsize);
 		x++;
 	}
 	if (check == 0)
@@ -99,12 +99,24 @@ int							check_size_corrupt_x64(void *ptr,
 }
 
 int							check_x32_x64_corrupt(void *ptr,
-								struct stat *buf, char *str, int x)
+		struct stat *buf, char *str, int x)
 {
+	if (x <= 2 && (check_size_corrupt_x64(ptr, buf, x) == 1
+				|| check_size_corrupt_x32(ptr, buf, x) == 1))
+	{
+		put_corrupted_files(str);
+		return (1);
+	}
 	if (x <= 2 && (check_size_corrupt_x64(ptr, buf, x) == 2
-			|| check_size_corrupt_x32(ptr, buf, x) == 2))
+				|| check_size_corrupt_x32(ptr, buf, x) == 2))
 	{
 		put_wrong_command_size(str);
+		return (1);
+	}
+	if (check_size_corrupt_x64(ptr, buf, x) == 1
+			|| check_size_corrupt_x32(ptr, buf, x) == 1)
+	{
+		put_corrupted_otool_files(str);
 		return (1);
 	}
 	if (check_size_corrupt_x64(ptr, buf, x) == 2

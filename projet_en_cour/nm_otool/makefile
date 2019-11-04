@@ -6,7 +6,7 @@
 #    By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2014/11/15 14:01:52 by mdambrev          #+#    #+#              #
-#    Updated: 2018/11/30 11:28:33 by mdambrev         ###   ########.fr        #
+#    Updated: 2019/10/01 13:25:34 by mdambrev         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,8 +41,10 @@ SRC 	=	put_nm_add.c\
 			get_segment.c\
 			no_leaks.c\
 			nm_otool_map.c\
+			arm.c\
 
-LIBFT	=	ft_strlen.c\
+LIBFT	=	ft_islower.c\
+			ft_strlen.c\
 			ft_putstr.c\
 			ft_putchar.c\
 			ft_bzero.c\

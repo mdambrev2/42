@@ -6,7 +6,7 @@
 /*   By: mdambrev <mdambrev@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2014/11/08 23:03:39 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/19 18:32:44 by mdambrev         ###   ########.fr       */
+/*   Updated: 2019/04/03 15:37:32 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct		s_list
 
 uint64_t			swap_uint64(uint64_t n);
 uint32_t			swap_uint32(uint32_t val);
+int					ft_islower(char c);
 char				*ft_strend(char *str);
 void				ft_put_hexa(uintmax_t quotient);
 void				ft_put_base_max(uintmax_t quotient, int base);

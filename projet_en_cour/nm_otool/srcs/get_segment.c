@@ -5,12 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/26 15:59:07 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/12/04 11:07:42 by mdambrev         ###   ########.fr       */
+/*   Created: 2019/04/04 18:51:45 by mdambrev          #+#    #+#             */
+/*   Updated: 2019/04/04 18:52:09 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "nm_otool.h"
+
+void							set_ppc_type(char *name, void *ptr, int ac)
+{
+	struct mach_header	*header_bin;
+
+	header_bin = (struct mach_header *)ptr;
+	if (ac != 2)
+	{
+		if (swap_uint32(header_bin->cputype) == CPU_TYPE_POWERPC ||
+				header_bin->cputype == CPU_TYPE_ARM ||
+				header_bin->cputype == CPU_TYPE_ARM64)
+		{
+			if (swap_uint32(header_bin->cputype) == CPU_TYPE_POWERPC64)
+				static_banner_ppc(64);
+			else if (header_bin->cputype == CPU_TYPE_ARM ||
+						header_bin->cputype == CPU_TYPE_ARM64)
+			{
+				static_banner_ppc(128);
+			}
+			else
+				static_banner_ppc(32);
+		}
+	}
+	name++;
+	name--;
+}
 
 t_circ							*get_sect_64(struct segment_command_64 *seg,
 												t_circ *sector)
@@ -111,11 +137,6 @@ t_circ							*get_seg_32(void *ptr)
 	x_max = if_ppc_swap(header->ncmds);
 	while (x < x_max)
 	{
-		if (!check_corrup(lc, NULL))
-		{
-			put_corrupted_files("files");
-			return (NULL);
-		}
 		if (if_ppc_swap(lc->cmd) == LC_SEGMENT)
 			sector = get_sect_32((struct segment_command*)lc, sector);
 		lc = (void*)lc + if_ppc_swap(lc->cmdsize);

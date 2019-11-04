@@ -6,23 +6,11 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/16 17:31:49 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/30 10:34:09 by mdambrev         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:17:02 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <nm_otool.h>
-
-uint32_t							put_addres_otool_32(uint32_t addr)
-{
-	char							*str1;
-
-	str1 = ft_convert_base_max((uint64_t)addr, 16);
-	str1 = add_octet_otool_32(str1, ft_strlen(str1), 8);
-	ft_printf("%s\t", str1);
-	free(str1);
-	addr = addr + 16;
-	return (addr);
-}
 
 void								select_ppc_or_x86(uint64_t cpt,
 								uint32_t *addr, char *str)
@@ -45,11 +33,11 @@ void								select_ppc_or_x86(uint64_t cpt,
 		str1 = ft_convertn_base_max(str[cpt], 16, 2);
 		ft_printf("%s", str1);
 		if ((cpt + 1) % 4 == 0)
-		{
 			ft_printf(" ", cpt);
-		}
 		free(str1);
 	}
+	if (static_banner_ppc(0) == 128)
+		arm(cpt, &*addr, str);
 }
 
 void								print_data_text_32(struct section *sec,

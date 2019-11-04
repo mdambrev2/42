@@ -6,7 +6,7 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/05/23 13:16:35 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/11/30 10:53:26 by mdambrev         ###   ########.fr       */
+/*   Updated: 2019/04/04 19:35:01 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ t_circ					*sort_by_desc_32(t_circ *ret, struct nlist *array,
 	tmp = ret->racine->next;
 	while (tmp != ret->racine)
 	{
+		if (ft_strcmp(stringtable + if_ppc_swap(array->n_un.n_strx),
+					tmp->function_name) == 0
+		&& ft_islower(get_type_64(array, (t_circ*)ret->racine->sector)) == 0
+		&& ft_islower(tmp->type) == 1)
+		{
+			return (tmp);
+		}
 		if (ft_strcmp(stringtable + if_ppc_swap(array->n_un.n_strx),
 	tmp->function_name) == 0 && array->n_value == 0 && tmp->value[0] != ' ')
 			return (tmp);

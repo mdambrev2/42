@@ -1,21 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client_write.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/08/12 15:45:53 by mdambrev          #+#    #+#             */
+/*   Updated: 2019/08/13 15:27:43 by mdambrev         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include <sys/socket.h>
-#include "bircd.h"
-
-void	write_all_client(t_env *e, int cs, char *message, int len)
-{
-	int i;
-
-	i = 0;
-	while (i < e->maxfd)
-	{
-		if ((e->fds[i].type == FD_CLIENT) &&
-				(i != cs))
-			send(i, message, len, 0);
-		i++;
-	}
-	free(message);
-}
+#include "serveur.h"
 
 void	write_all_client_with_cs(t_env *e, char *message, int len)
 {
@@ -25,38 +21,67 @@ void	write_all_client_with_cs(t_env *e, char *message, int len)
 	while (i < e->maxfd)
 	{
 		if (e->fds[i].type == FD_CLIENT)
-			send(i, message, len, 0);
+		{
+			ft_memcpy(e->fds[i].buf_write
+					+ ft_strlen(e->fds[i].buf_write), message, len);
+		}
 		i++;
 	}
 	free(message);
 }
 
-void	write_all_client_in_chan(t_env *e,int cs , char *message, int len)
+void	write_all_client_in_chan(t_env *e, int cs, char *message, int len)
 {
 	int i;
 
 	i = 0;
 	while (i < e->maxfd)
 	{
-		if (e->fds[i].type == FD_CLIENT 
-				&& (i != cs) 
-				&& strcmp(e->fds[i].chan, e->fds[cs].chan) == 0)
-			send(i, message, len, 0);
+		if (e->fds[i].type == FD_CLIENT
+				&& (i != cs)
+				&& ft_strcmp(e->fds[i].chan, e->fds[cs].chan) == 0)
+		{
+			ft_memcpy(e->fds[i].buf_write
+					+ ft_strlen(e->fds[i].buf_write), message, len);
+		}
 		i++;
 	}
 	free(message);
 }
 
-void	write_all_client_in_chan_with_cs(t_env *e,int cs , char *message, int len)
+void	write_all_client_in_chan_with_cs(t_env *e, int cs,
+											char *message, int len)
 {
 	int i;
 
 	i = 0;
 	while (i < e->maxfd)
 	{
-		if (e->fds[i].type == FD_CLIENT 
-				&& strcmp(e->fds[i].chan, e->fds[cs].chan) == 0)
-			send(i, message, len, 0);
+		if (e->fds[i].type == FD_CLIENT
+				&& ft_strcmp(e->fds[i].chan, e->fds[cs].chan) == 0)
+		{
+			ft_memcpy(e->fds[i].buf_write
+					+ ft_strlen(e->fds[i].buf_write), message, len);
+		}
+		i++;
+	}
+	free(message);
+}
+
+void	write_cs(t_env *e, int cs, char *message, int len)
+{
+	int i;
+
+	i = 0;
+	while (i < e->maxfd)
+	{
+		if (e->fds[i].type == FD_CLIENT
+				&& (i == cs))
+		{
+			ft_memcpy(e->fds[i].buf_write
+					+ ft_strlen(e->fds[i].buf_write), message, len);
+			break ;
+		}
 		i++;
 	}
 	free(message);
@@ -64,8 +89,6 @@ void	write_all_client_in_chan_with_cs(t_env *e,int cs , char *message, int len)
 
 void	client_write(t_env *e, int cs)
 {
-	e++;
-	e--;
-	cs++;
-	cs--;
+	send(cs, e->fds[cs].buf_write, ft_strlen(e->fds[cs].buf_write), 0);
+	ft_bzero(e->fds[cs].buf_write, BUF_SIZE);
 }

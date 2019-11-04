@@ -6,60 +6,61 @@
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/26 14:53:12 by mdambrev          #+#    #+#             */
-/*   Updated: 2019/04/30 16:53:02 by mdambrev         ###   ########.fr       */
+/*   Updated: 2019/08/13 13:59:40 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include <unistd.h>
 #include <sys/socket.h>
-#include "bircd.h"
+#include "serveur.h"
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
 
 char		*get_client_name(t_env *env, int cs)
 {
-	char *client_number;
-	char ret[50];
-	char *tmp;
-	
-	if(env->fds[cs].name == NULL)
+	char	*client_number;
+	char	ret[50];
+	char	*tmp;
+
+	if (env->fds[cs].name == NULL)
 	{
 		tmp = ft_itoa(cs);
-		memset(ret, 0, 50);
+		ft_memset(ret, 0, 50);
 		client_number = NULL;
-		strcat(ret, "client#");
-		strcat(ret, tmp);
+		ft_strcat(ret, "client#");
+		ft_strcat(ret, tmp);
 		free(tmp);
-		return(strdup(ret));
+		return (ft_strdup(ret));
 	}
 	else
-		return(strdup(env->fds[cs].name));
+		return (ft_strdup(env->fds[cs].name));
 }
 
 char		*client_leave_message(t_env *env, int cs)
 {
-	char ret[100];
-	char *str;
+	char	ret[100];
+	char	*str;
 
-	memset(ret, 0, 100);
+	ft_memset(ret, 0, 100);
 	str = get_client_name(env, cs);
-	strcat(ret, str);
+	ft_strcat(ret, str);
 	free(str);
-	strcat(ret, ": has left the serveur\n");
-	return(strdup(ret));
+	printf("%s has left server\n", ret);
+	ft_strcat(ret, ": has left server\n");
+	return (ft_strdup(ret));
 }
 
 char		*client_join_message(t_env *env, int cs)
 {
-	char ret[100];
-	char *str;
+	char	ret[100];
+	char	*str;
 
-	memset(ret, 0, 100);
+	ft_memset(ret, 0, 100);
 	str = get_client_name(env, cs);
-	strcat(ret, str);
+	ft_strcat(ret, str);
 	free(str);
-	strcat(ret, ": has join the serveur\n");
-	return(strdup(ret));
+	ft_strcat(ret, ": has join the serveur\n");
+	return (ft_strdup(ret));
 }

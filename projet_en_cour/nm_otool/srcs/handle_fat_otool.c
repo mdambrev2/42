@@ -1,16 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_nm_fat.c                                    :+:      :+:    :+:   */
+/*   handle_fat_otool.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mdambrev <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/25 15:01:08 by mdambrev          #+#    #+#             */
-/*   Updated: 2018/10/08 07:48:59 by mdambrev         ###   ########.fr       */
+/*   Created: 2019/04/04 18:52:38 by mdambrev          #+#    #+#             */
+/*   Updated: 2019/04/04 18:55:04 by mdambrev         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <nm_otool.h>
+
+void					print_arm_architecture_otool(char *name,
+				struct fat_arch *header_bin, struct fat_header *header_fat)
+{
+	if (swap_uint32(header_bin->cputype) == CPU_TYPE_ARM)
+	{
+		if (swap_uint32(header_fat->nfat_arch) > 1
+				&& swap_uint32(header_bin->cpusubtype) == CPU_SUBTYPE_ARM_V7S)
+			ft_printf("%s (architecture armv7s):\n", name);
+		if (swap_uint32(header_fat->nfat_arch) > 1
+				&& swap_uint32(header_bin->cpusubtype) == CPU_SUBTYPE_ARM_V7)
+			ft_printf("%s (architecture armv7):\n", name);
+	}
+	else if (swap_uint32(header_bin->cputype) == CPU_TYPE_ARM64)
+	{
+		if (swap_uint32(header_fat->nfat_arch) > 1)
+			ft_printf("%s (architecture arm64):\n", name);
+	}
+}
 
 void					print_architecture_otool(char *name,
 				struct fat_arch *header_bin, struct fat_header *header_fat)
@@ -34,6 +53,9 @@ void					print_architecture_otool(char *name,
 		if (swap_uint32(header_fat->nfat_arch) > 1)
 			ft_printf("%s (architecture ppc64):\n", name);
 	}
+	if (swap_uint32(header_bin->cputype) == CPU_TYPE_ARM
+			|| swap_uint32(header_bin->cputype) == CPU_TYPE_ARM64)
+		print_arm_architecture_otool(name, header_bin, header_fat);
 }
 
 void					get_otool_norm(void **norm,
@@ -54,6 +76,14 @@ void					get_otool_norm(void **norm,
 	{
 		print_architecture_otool(norm[0], header_bin, header_fat);
 		otool(norm[1] + swap_uint32(header_bin->offset), norm[0], 2, buf);
+	}
+	if (swap_uint32(header_bin->cputype) == CPU_TYPE_ARM
+			|| swap_uint32(header_bin->cputype) == CPU_TYPE_ARM64)
+	{
+		static_banner_ppc(128);
+		print_architecture_otool(norm[0], header_bin, header_fat);
+		otool(norm[1] + swap_uint32(header_bin->offset), norm[0], 2, buf);
+		static_banner_ppc(0);
 	}
 }
 
